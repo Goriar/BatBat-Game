@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 
 import al.artofsoul.batbatgame.audio.JukeBox;
 import al.artofsoul.batbatgame.entity.Enemy;
+import al.artofsoul.batbatgame.entity.Enemy.EnemyType;
 import al.artofsoul.batbatgame.entity.EnemyProjectile;
 import al.artofsoul.batbatgame.entity.EnergyParticle;
 import al.artofsoul.batbatgame.entity.Explosion;
@@ -18,8 +19,13 @@ import al.artofsoul.batbatgame.entity.HUD;
 import al.artofsoul.batbatgame.entity.Player;
 import al.artofsoul.batbatgame.entity.PlayerSave;
 import al.artofsoul.batbatgame.entity.Portal;
+import al.artofsoul.batbatgame.entity.Spirit;
 import al.artofsoul.batbatgame.entity.Teleport;
 import al.artofsoul.batbatgame.entity.Title;
+import al.artofsoul.batbatgame.entity.enemies.RedEnergy;
+import al.artofsoul.batbatgame.entity.enemies.Ufo;
+import al.artofsoul.batbatgame.entity.enemies.XhelBat;
+import al.artofsoul.batbatgame.entity.enemies.Zogu;
 import al.artofsoul.batbatgame.handlers.LoggingHelper;
 import al.artofsoul.batbatgame.tilemap.TileMap;
 
@@ -54,6 +60,9 @@ public abstract class GameState {
 
 	protected Portal portal;
 
+	protected EnemyType[] enemyTypesInLevel;
+	protected int[][] coords;
+
 	public GameState(GameStateManager gsm) {
 		this.gsm = gsm;
 	}
@@ -66,11 +75,9 @@ public abstract class GameState {
 
 	public abstract void handleInput();
 
-	protected abstract void populateEnemies();
-
 	protected abstract void eventStart();
 
-	public void handleObjects(TileMap tileMap, List<Enemy> enemies, List<EnemyProjectile> eprojectiles,
+	protected void handleObjects(TileMap tileMap, List<Enemy> enemies, List<EnemyProjectile> eprojectiles,
 			List<Explosion> explosions) {
 		ArrayList<Enemy> enemiesToRemove = new ArrayList<>();
 		// update enemies
@@ -161,8 +168,6 @@ public abstract class GameState {
 			this.portal.setPosition(goalX, goalY);
 		}
 
-		populateEnemies();
-
 		// start event
 		eventStart = true;
 		tb = new ArrayList<>();
@@ -193,6 +198,32 @@ public abstract class GameState {
 			this.subtitle.sety(85);
 		} catch (Exception e) {
 			LoggingHelper.LOGGER.log(Level.SEVERE, e.getMessage());
+		}
+	}
+
+	protected void populateEnemies(EnemyType[] enemies, int[][] coords) {
+		this.enemies.clear();
+		for (int i = 0; i < enemies.length; i++) {
+			Enemy e = null;
+			switch (enemies[i]) {
+			case RED_ENERGY:
+				e = new RedEnergy(this.tileMap);
+				break;
+			case UFO:
+				e = new Ufo(this.tileMap, this.player, this.enemies);
+				break;
+			case XHELBAT:
+				e = new XhelBat(this.tileMap, this.player);
+				break;
+			case SPIRIT:
+				e = new Spirit(this.tileMap, this.player, this.enemies, this.explosions);
+			default:
+				e = new Zogu(this.tileMap);
+				break;
+			}
+
+			e.setPosition(coords[i][0], coords[i][1]);
+			this.enemies.add(e);
 		}
 	}
 }

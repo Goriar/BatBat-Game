@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import al.artofsoul.batbatgame.audio.JukeBox;
+import al.artofsoul.batbatgame.entity.Enemy.EnemyType;
 import al.artofsoul.batbatgame.handlers.Keys;
 import al.artofsoul.batbatgame.handlers.LoggingHelper;
 import al.artofsoul.batbatgame.main.GamePanel;
@@ -118,7 +119,7 @@ public class OptionsState extends GameState {
 	}
 
 	@Override
-	protected void populateEnemies() {
+	protected void populateEnemies(EnemyType[] enemies, int[][] coords) {
 		// Not Necessary
 
 	}

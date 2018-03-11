@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import al.artofsoul.batbatgame.audio.JukeBox;
+import al.artofsoul.batbatgame.entity.Enemy.EnemyType;
 import al.artofsoul.batbatgame.entity.EnergyParticle;
 import al.artofsoul.batbatgame.entity.Explosion;
 import al.artofsoul.batbatgame.entity.Player;
@@ -64,14 +65,10 @@ public class Level4State extends GameState {
 		trp.setPosition(162, 102);
 		blp.setPosition(152, 112);
 		brp.setPosition(162, 112);
-	}
 
-	@Override
-	protected void populateEnemies() {
-		enemies.clear();
-		spirit = new Spirit(tileMap, player, enemies, explosions);
-		spirit.setPosition(-9000, 9000);
-		enemies.add(spirit);
+		enemyTypesInLevel = new EnemyType[] { EnemyType.SPIRIT };
+		coords = new int[][] { new int[] { -9000, 9000 } };
+		populateEnemies(enemyTypesInLevel, coords);
 	}
 
 	@Override
@@ -199,7 +196,7 @@ public class Level4State extends GameState {
 	private void reset() {
 		player.reset();
 		player.setPosition(50, 190);
-		populateEnemies();
+		populateEnemies(null, null);
 		eventStart = blockInput = true;
 		eventCount = 0;
 		eventStart();

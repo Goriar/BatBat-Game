@@ -4,12 +4,10 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import al.artofsoul.batbatgame.audio.JukeBox;
+import al.artofsoul.batbatgame.entity.Enemy.EnemyType;
 import al.artofsoul.batbatgame.entity.Player;
 import al.artofsoul.batbatgame.entity.PlayerSave;
 import al.artofsoul.batbatgame.entity.Title;
-import al.artofsoul.batbatgame.entity.enemies.Ufo;
-import al.artofsoul.batbatgame.entity.enemies.XhelBat;
-import al.artofsoul.batbatgame.entity.enemies.Zogu;
 import al.artofsoul.batbatgame.handlers.Keys;
 import al.artofsoul.batbatgame.main.GamePanel;
 import al.artofsoul.batbatgame.tilemap.Background;
@@ -42,66 +40,17 @@ public class Level3State extends GameState {
 		setupTitle(new int[] { 0, 0, 178, 20 }, new int[] { 0, 33, 91, 13 });
 		setupMusic("level2", "/Music/level1v2.mp3", true);
 
-	}
+		enemyTypesInLevel = new EnemyType[] { EnemyType.XHELBAT, EnemyType.XHELBAT, EnemyType.XHELBAT,
+				EnemyType.XHELBAT, EnemyType.XHELBAT, EnemyType.XHELBAT, EnemyType.XHELBAT, EnemyType.XHELBAT,
+				EnemyType.ZOGU, EnemyType.ZOGU, EnemyType.ZOGU, EnemyType.ZOGU, EnemyType.UFO, EnemyType.UFO,
+				EnemyType.UFO, EnemyType.UFO };
+		coords = new int[][] { new int[] { 750, 100 }, new int[] { 900, 150 }, new int[] { 1320, 250 },
+				new int[] { 1570, 160 }, new int[] { 1590, 160 }, new int[] { 2600, 370 }, new int[] { 2620, 370 },
+				new int[] { 2640, 370 }, new int[] { 904, 130 }, new int[] { 1080, 270 }, new int[] { 1200, 270 },
+				new int[] { 1704, 300 }, new int[] { 1900, 580 }, new int[] { 2330, 550 }, new int[] { 2400, 490 },
+				new int[] { 2457, 430 } };
 
-	@Override
-	protected void populateEnemies() {
-		enemies.clear();
-		XhelBat gp;
-		Zogu g;
-		Ufo t;
-
-		gp = new XhelBat(tileMap, player);
-		gp.setPosition(750, 100);
-		enemies.add(gp);
-		gp = new XhelBat(tileMap, player);
-		gp.setPosition(900, 150);
-		enemies.add(gp);
-		gp = new XhelBat(tileMap, player);
-		gp.setPosition(1320, 250);
-		enemies.add(gp);
-		gp = new XhelBat(tileMap, player);
-		gp.setPosition(1570, 160);
-		enemies.add(gp);
-		gp = new XhelBat(tileMap, player);
-		gp.setPosition(1590, 160);
-		enemies.add(gp);
-		gp = new XhelBat(tileMap, player);
-		gp.setPosition(2600, 370);
-		enemies.add(gp);
-		gp = new XhelBat(tileMap, player);
-		gp.setPosition(2620, 370);
-		enemies.add(gp);
-		gp = new XhelBat(tileMap, player);
-		gp.setPosition(2640, 370);
-		enemies.add(gp);
-
-		g = new Zogu(tileMap);
-		g.setPosition(904, 130);
-		enemies.add(g);
-		g = new Zogu(tileMap);
-		g.setPosition(1080, 270);
-		enemies.add(g);
-		g = new Zogu(tileMap);
-		g.setPosition(1200, 270);
-		enemies.add(g);
-		g = new Zogu(tileMap);
-		g.setPosition(1704, 300);
-		enemies.add(g);
-
-		t = new Ufo(tileMap, player, enemies);
-		t.setPosition(1900, 580);
-		enemies.add(t);
-		t = new Ufo(tileMap, player, enemies);
-		t.setPosition(2330, 550);
-		enemies.add(t);
-		t = new Ufo(tileMap, player, enemies);
-		t.setPosition(2400, 490);
-		enemies.add(t);
-		t = new Ufo(tileMap, player, enemies);
-		t.setPosition(2457, 430);
-		enemies.add(t);
-
+		populateEnemies(enemyTypesInLevel, coords);
 	}
 
 	@Override
@@ -236,7 +185,7 @@ public class Level3State extends GameState {
 		player.loseLife();
 		player.reset();
 		player.setPosition(300, 131);
-		populateEnemies();
+		populateEnemies(enemyTypesInLevel, coords);
 		blockInput = true;
 		eventCount = 0;
 		tileMap.setShaking(false, 0);

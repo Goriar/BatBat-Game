@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import javax.imageio.ImageIO;
 
 import al.artofsoul.batbatgame.audio.JukeBox;
+import al.artofsoul.batbatgame.entity.Enemy.EnemyType;
 import al.artofsoul.batbatgame.entity.PlayerSave;
 import al.artofsoul.batbatgame.handlers.Keys;
 import al.artofsoul.batbatgame.handlers.LoggingHelper;
@@ -112,7 +113,7 @@ public class MenuState extends GameState {
 	}
 
 	@Override
-	protected void populateEnemies() {
+	protected void populateEnemies(EnemyType[] enemies, int[][] coords) {
 		// Not Necessary
 
 	}

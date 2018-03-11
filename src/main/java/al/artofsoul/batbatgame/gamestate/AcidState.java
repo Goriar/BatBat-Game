@@ -8,6 +8,7 @@ import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
 
+import al.artofsoul.batbatgame.entity.Enemy.EnemyType;
 import al.artofsoul.batbatgame.handlers.Keys;
 import al.artofsoul.batbatgame.handlers.LoggingHelper;
 import al.artofsoul.batbatgame.main.GamePanel;
@@ -67,7 +68,7 @@ public class AcidState extends GameState {
 	}
 
 	@Override
-	protected void populateEnemies() {
+	protected void populateEnemies(EnemyType[] enemies, int[][] coords) {
 		// Not Necessary
 
 	}

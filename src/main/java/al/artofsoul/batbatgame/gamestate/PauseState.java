@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
+import al.artofsoul.batbatgame.entity.Enemy.EnemyType;
 import al.artofsoul.batbatgame.handlers.Keys;
 import al.artofsoul.batbatgame.main.GamePanel;
 
@@ -54,7 +55,7 @@ public class PauseState extends GameState {
 	}
 
 	@Override
-	protected void populateEnemies() {
+	protected void populateEnemies(EnemyType[] enemies, int[][] coords) {
 		// Not Necessary
 
 	}
