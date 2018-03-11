@@ -57,8 +57,8 @@ public class Title {
 	
 	public void update() {
 		if(!done) {
-			if(x >= (GamePanel.WIDTH - width) / 2) {
-				x = (GamePanel.WIDTH - width) / 2;
+			if(x >= (GamePanel.WIDTH - width) / 2.0) {
+				x = (GamePanel.WIDTH - width) / 2.0;
 				count++;
 				if(count >= 120) done = true;
 			}

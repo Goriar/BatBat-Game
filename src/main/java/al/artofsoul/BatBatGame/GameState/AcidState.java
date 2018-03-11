@@ -48,7 +48,7 @@ public class AcidState extends GameState {
 		g.setColor(color);
 		g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
 		AffineTransform at = new AffineTransform();
-		at.translate(GamePanel.WIDTH / 2, GamePanel.HEIGHT / 2);
+		at.translate(GamePanel.WIDTH / 2.0, GamePanel.HEIGHT / 2.0);
 		at.rotate(angle);
 		g.drawImage(image, at, null);
 	}

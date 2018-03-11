@@ -106,10 +106,10 @@ public abstract class MapObject {
 	}
 	
 	public void calculateCorners(double x, double y) {
-		int leftTile = (int)(x - cwidth / 2) / tileSize;
-		int rightTile = (int)(x + cwidth / 2 - 1) / tileSize;
-		int topTile = (int)(y - cheight / 2) / tileSize;
-		int bottomTile = (int)(y + cheight / 2 - 1) / tileSize;
+		int leftTile = (int)(x - cwidth / 2.0) / tileSize;
+		int rightTile = (int)(x + cwidth / 2.0 - 1) / tileSize;
+		int topTile = (int)(y - cheight / 2.0) / tileSize;
+		int bottomTile = (int)(y + cheight / 2.0 - 1) / tileSize;
 		if(topTile < 0 || bottomTile >= tileMap.getNumRows() ||
 			leftTile < 0 || rightTile >= tileMap.getNumCols()) {
 			topLeft = topRight = bottomLeft = bottomRight = false;
@@ -140,7 +140,7 @@ public abstract class MapObject {
 		if(dy < 0) {
 			if(topLeft || topRight) {
 				dy = 0;
-				ytemp = currRow * tileSize + cheight / 2;
+				ytemp = currRow * tileSize + cheight / 2.0;
 			}
 			else {
 				ytemp += dy;
@@ -150,7 +150,7 @@ public abstract class MapObject {
 			if(bottomLeft || bottomRight) {
 				dy = 0;
 				falling = false;
-				ytemp = (currRow + 1) * tileSize - cheight / 2;
+				ytemp = (currRow + 1) * tileSize - cheight / 2.0;
 			}
 			else {
 				ytemp += dy;
@@ -161,7 +161,7 @@ public abstract class MapObject {
 		if(dx < 0) {
 			if(topLeft || bottomLeft) {
 				dx = 0;
-				xtemp = currCol * tileSize + cwidth / 2;
+				xtemp = currCol * tileSize + cwidth / 2.0;
 			}
 			else {
 				xtemp += dx;
@@ -170,7 +170,7 @@ public abstract class MapObject {
 		if(dx > 0) {
 			if(topRight || bottomRight) {
 				dx = 0;
-				xtemp = (currCol + 1) * tileSize - cwidth / 2;
+				xtemp = (currCol + 1) * tileSize - cwidth / 2.0;
 			}
 			else {
 				xtemp += dx;
@@ -226,16 +226,16 @@ public abstract class MapObject {
 		if(facingRight) {
 			g.drawImage(
 				animation.getImage(),
-				(int)(x + xmap - width / 2),
-				(int)(y + ymap - height / 2),
+				(int)(x + xmap - width / 2.0),
+				(int)(y + ymap - height / 2.0),
 				null
 			);
 		}
 		else {
 			g.drawImage(
 				animation.getImage(),
-				(int)(x + xmap - width / 2 + width),
-				(int)(y + ymap - height / 2),
+				(int)(x + xmap - width / 2.0 + width),
+				(int)(y + ymap - height / 2.0),
 				-width,
 				height,
 				null

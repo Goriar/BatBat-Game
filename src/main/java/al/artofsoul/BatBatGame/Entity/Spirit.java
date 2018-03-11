@@ -141,14 +141,14 @@ public class Spirit extends Enemy {
 				dx = dy = 0;
 			}
 			if(stepCount == 60) {
-				x = tileMap.getWidth() / 2;
-				y = tileMap.getHeight() / 2;
+				x = tileMap.getWidth() / 2.0;
+				y = tileMap.getHeight() / 2.0;
 				explosions.add(new Explosion(tileMap, (int)x, (int)y));
 			}
 			if(stepCount >= 90 && stepCount % 30 == 0) {
 				RedEnergy de = new RedEnergy(tileMap);
 				de.setPosition(x, y);
-				de.setVector(3 * Math.sin(stepCount / 32), 3 * Math.cos(stepCount / 32));
+				de.setVector(3 * Math.sin(stepCount / 32.0), 3 * Math.cos(stepCount / 32.0));
 				de.setType(RedEnergy.BOUNCE);
 				enemies.add(de);
 			}
@@ -204,12 +204,12 @@ public class Spirit extends Enemy {
 			if(stepCount == 60) {
 				if(player.getx() > tileMap.getWidth() / 2) {
 					x = 30;
-					y = tileMap.getHeight() - 60;
+					y = tileMap.getHeight() - 60.0;
 					dx = 4;
 				}
 				else {
-					x = tileMap.getWidth() - 30;
-					y = tileMap.getHeight() - 60;
+					x = tileMap.getWidth() - 30.0;
+					y = tileMap.getHeight() - 60.0;
 					dx = -4;
 				}
 				explosions.add(new Explosion(tileMap, (int)x, (int)y));
@@ -225,7 +225,7 @@ public class Spirit extends Enemy {
 		else if(steps[step] == 2) {
 			stepCount++;
 			if(stepCount == 1) {
-				x = tileMap.getWidth() / 2;
+				x = tileMap.getWidth() / 2.0;
 				y = 40;
 			}
 			if(stepCount == 60) {

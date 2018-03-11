@@ -74,8 +74,8 @@ public class Explosion extends MapObject {
 		for(int i = 0; i < points.length; i++) {
 			g.drawImage(
 				animation.getImage(),
-				(int) (points[i].x + xmap - width / 2),
-				(int) (points[i].y + ymap - height / 2),
+				(int) (points[i].x + xmap - width / 2.0),
+				(int) (points[i].y + ymap - height / 2.0),
 				null
 			);
 		}

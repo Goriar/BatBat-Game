@@ -176,8 +176,8 @@ public class TileMap {
 	
 	public void update() {
 		if(shaking) {
-			this.x += Math.random() * intensity - intensity / 2;
-			this.y += Math.random() * intensity - intensity / 2;
+			this.x += Math.random() * intensity - intensity / 2.0;
+			this.y += Math.random() * intensity - intensity / 2.0;
 		}
 	}
 	
