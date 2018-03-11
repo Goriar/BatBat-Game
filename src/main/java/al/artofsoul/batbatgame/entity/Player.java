@@ -413,16 +413,16 @@ public class Player extends MapObject {
 		}
 
 		// energy particles
-		ArrayList<Integer> particlesToRemove = new ArrayList<>();
+		ArrayList<EnergyParticle> particlesToRemove = new ArrayList<>();
 		for (int i = 0; i < energyParticles.size(); i++) {
 			energyParticles.get(i).update();
 			if (energyParticles.get(i).shouldRemove()) {
-				particlesToRemove.add(i);
+				particlesToRemove.add(energyParticles.get(i));
 			}
 		}
 
-		for (Integer i : particlesToRemove) {
-			energyParticles.remove(i.intValue());
+		for (EnergyParticle e : particlesToRemove) {
+			energyParticles.remove(e);
 		}
 
 		// check attack finished

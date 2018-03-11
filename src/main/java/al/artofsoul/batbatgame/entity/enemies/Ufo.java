@@ -15,7 +15,7 @@ import al.artofsoul.batbatgame.tilemap.TileMap;
  *
  */
 
-public class Ufo extends Enemy {
+public class Ufo extends Flyer {
 
 	private Player player;
 	private ArrayList<Enemy> enemies;
@@ -23,8 +23,6 @@ public class Ufo extends Enemy {
 	private BufferedImage[] idleSprites;
 	private BufferedImage[] jumpSprites;
 	private BufferedImage[] attackSprites;
-
-	private boolean jumping;
 
 	private static final int IDLE = 0;
 	private static final int JUMPING = 1;
@@ -36,22 +34,9 @@ public class Ufo extends Enemy {
 
 	public Ufo(TileMap tm, Player p, List<Enemy> en) {
 
-		super(tm);
+		super(tm, FlyerType.UFO);
 		player = p;
 		enemies = (ArrayList<Enemy>) en;
-
-		health = maxHealth = 4;
-
-		width = 30;
-		height = 30;
-		cwidth = 20;
-		cheight = 26;
-
-		damage = 1;
-		moveSpeed = 1.5;
-		fallSpeed = 0.15;
-		maxFallSpeed = 4.0;
-		jumpStart = -5;
 
 		idleSprites = Content.getUfo()[0];
 		jumpSprites = Content.getUfo()[1];
@@ -62,23 +47,6 @@ public class Ufo extends Enemy {
 
 		attackTick = 0;
 
-	}
-
-	private void getNextPosition() {
-		if (left)
-			dx = -moveSpeed;
-		else if (right)
-			dx = moveSpeed;
-		else
-			dx = 0;
-		if (falling) {
-			dy += fallSpeed;
-			if (dy > maxFallSpeed)
-				dy = maxFallSpeed;
-		}
-		if (jumping && !falling) {
-			dy = jumpStart;
-		}
 	}
 
 	@Override
