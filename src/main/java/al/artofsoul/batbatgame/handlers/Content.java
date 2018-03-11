@@ -15,13 +15,13 @@ import javax.imageio.ImageIO;
 
 public class Content {
 	
-	public static final BufferedImage[][] ENERGY_PARTICLE = load("/Sprites/Player/EnergyParticle.gif", 5, 5);
-	public static final BufferedImage[][] EXPLOSIONS = load("/Sprites/Enemies/ExplosionRed.gif", 30, 30);
+	private static final BufferedImage[][] ENERGY_PARTICLE = load("/Sprites/Player/EnergyParticle.gif", 5, 5);
+	private static final BufferedImage[][] EXPLOSIONS = load("/Sprites/Enemies/ExplosionRed.gif", 30, 30);
 	
-	public static final BufferedImage[][] ZOGU = load("/Sprites/Enemies/Zogu.gif", 39, 20);
-	public static final BufferedImage[][] UFO = load("/Sprites/Enemies/Ufo.gif", 30, 30);
-	public static final BufferedImage[][] XHELBAT = load("/Sprites/Enemies/XhelBat.gif", 25, 25);
-	public static final BufferedImage[][] RED_ENERGY = load("/Sprites/Enemies/RedEnergy.gif", 20, 20);
+	private static final BufferedImage[][] ZOGU = load("/Sprites/Enemies/Zogu.gif", 39, 20);
+	private static final BufferedImage[][] UFO = load("/Sprites/Enemies/Ufo.gif", 30, 30);
+	private static final BufferedImage[][] XHELBAT = load("/Sprites/Enemies/XhelBat.gif", 25, 25);
+	private static final BufferedImage[][] RED_ENERGY = load("/Sprites/Enemies/RedEnergy.gif", 20, 20);
 	
 	public static BufferedImage[][] load(String s, int w, int h) {
 		BufferedImage[][] ret;
@@ -43,6 +43,30 @@ public class Content {
 			System.exit(0);
 		}
 		return null;
+	}
+
+	public static BufferedImage[][] getEnergyParticle() {
+		return ENERGY_PARTICLE;
+	}
+
+	public static BufferedImage[][] getExplosions() {
+		return EXPLOSIONS;
+	}
+
+	public static BufferedImage[][] getZogu() {
+		return ZOGU;
+	}
+
+	public static BufferedImage[][] getUfo() {
+		return UFO;
+	}
+
+	public static BufferedImage[][] getXhelbat() {
+		return XHELBAT;
+	}
+
+	public static BufferedImage[][] getRedEnergy() {
+		return RED_ENERGY;
 	}
 	
 }

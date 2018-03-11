@@ -47,7 +47,7 @@ public class EnergyParticle extends MapObject {
 		}
 		
 		count = 0;
-		sprites = Content.ENERGY_PARTICLE[0];
+		sprites = Content.getEnergyParticle()[0];
 		animation.setFrames(sprites);
 		animation.setDelay(-1);
 	}

@@ -41,8 +41,8 @@ public class RedEnergy extends Enemy {
 		damage = 1;
 		moveSpeed = 5;
 		
-		startSprites = Content.RED_ENERGY[0];
-		sprites = Content.RED_ENERGY[1];
+		startSprites = Content.getRedEnergy()[0];
+		sprites = Content.getRedEnergy()[1];
 		
 		animation.setFrames(startSprites);
 		animation.setDelay(2);

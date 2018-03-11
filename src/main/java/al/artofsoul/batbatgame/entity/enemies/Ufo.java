@@ -52,9 +52,9 @@ public class Ufo extends Enemy {
 		maxFallSpeed = 4.0;
 		jumpStart = -5;
 		
-		idleSprites = Content.UFO[0];
-		jumpSprites = Content.UFO[1];
-		attackSprites = Content.UFO[2];
+		idleSprites = Content.getUfo()[0];
+		jumpSprites = Content.getUfo()[1];
+		attackSprites = Content.getUfo()[2];
 		
 		animation.setFrames(idleSprites);
 		animation.setDelay(-1);

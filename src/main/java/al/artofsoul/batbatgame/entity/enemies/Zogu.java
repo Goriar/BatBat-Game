@@ -34,7 +34,7 @@ public class Zogu extends Enemy {
 		damage = 1;
 		moveSpeed = 5;
 		
-		idleSprites = Content.ZOGU[0];
+		idleSprites = Content.getZogu()[0];
 		
 		animation.setFrames(idleSprites);
 		animation.setDelay(4);
