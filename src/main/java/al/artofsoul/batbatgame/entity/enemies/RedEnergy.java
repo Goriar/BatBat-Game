@@ -63,13 +63,11 @@ public class RedEnergy extends Enemy {
 	@Override
 	public void update() {
 
-		if (start) {
-			if (animation.hasPlayedOnce()) {
-				animation.setFrames(sprites);
-				animation.setNumFrames(3);
-				animation.setDelay(2);
-				start = false;
-			}
+		if (start && animation.hasPlayedOnce()) {
+			animation.setFrames(sprites);
+			animation.setNumFrames(3);
+			animation.setDelay(2);
+			start = false;
 		}
 
 		if (type == VECTOR) {

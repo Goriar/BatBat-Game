@@ -259,9 +259,8 @@ public class Spirit extends Enemy {
 
 	@Override
 	public void draw(Graphics2D g) {
-		if (flinching) {
-			if (flinchCount % 4 < 2)
-				return;
+		if (flinching && flinchCount % 4 < 2) {
+			return;
 		}
 		super.draw(g);
 	}

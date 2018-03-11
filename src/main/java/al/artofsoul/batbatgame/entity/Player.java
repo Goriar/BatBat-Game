@@ -206,7 +206,7 @@ public class Player extends MapObject {
 	public void setDashing(boolean b) {
 		if (!b)
 			dashing = false;
-		else if (b && !falling) {
+		else if (!falling) {
 			dashing = true;
 		}
 	}
@@ -347,7 +347,6 @@ public class Player extends MapObject {
 
 		// jumping
 		if (jumping && !falling) {
-			// sfx.get("jump").play();
 			dy = jumpStart;
 			falling = true;
 			JukeBox.play("playerjump");
@@ -414,20 +413,22 @@ public class Player extends MapObject {
 		}
 
 		// energy particles
+		ArrayList<Integer> particlesToRemove = new ArrayList<>();
 		for (int i = 0; i < energyParticles.size(); i++) {
 			energyParticles.get(i).update();
 			if (energyParticles.get(i).shouldRemove()) {
-				energyParticles.remove(i);
-				i--;
+				particlesToRemove.add(i);
 			}
 		}
 
+		for (Integer i : particlesToRemove) {
+			energyParticles.remove(i);
+		}
+
 		// check attack finished
-		if (currentAction == ATTACKING || currentAction == UPATTACKING) {
-			if (animation.hasPlayedOnce()) {
-				attacking = false;
-				upattacking = false;
-			}
+		if ((currentAction == ATTACKING || currentAction == UPATTACKING) && animation.hasPlayedOnce()) {
+			attacking = false;
+			upattacking = false;
 		}
 		if (currentAction == CHARGING) {
 			if (animation.hasPlayed(5)) {
@@ -450,29 +451,20 @@ public class Player extends MapObject {
 			Enemy e = enemies.get(i);
 
 			// check attack
-			if (currentAction == ATTACKING && animation.getFrame() == 3 && animation.getCount() == 0) {
-				if (e.intersects(ar)) {
-					e.hit(damage);
-				}
+			if (currentAction == ATTACKING && animation.getFrame() == 3 && animation.getCount() == 0
+					&& e.intersects(ar)) {
+				e.hit(damage);
 			}
 
 			// check upward attack
-			if (currentAction == UPATTACKING && animation.getFrame() == 3 && animation.getCount() == 0) {
-				if (e.intersects(aur)) {
-					e.hit(damage);
-				}
+			if (currentAction == UPATTACKING && animation.getFrame() == 3 && animation.getCount() == 0
+					&& e.intersects(aur)) {
+				e.hit(damage);
 			}
 
 			// check charging attack
-			if (currentAction == CHARGING) {
-				if (animation.getCount() == 0) {
-					if (e.intersects(cr)) {
-						e.hit(chargeDamage);
-					}
-					/*
-					 * if(e.intersects(this)) { e.hit(chargeDamage); }
-					 */
-				}
+			if (currentAction == CHARGING && animation.getCount() == 0 && e.intersects(cr)) {
+				e.hit(chargeDamage);
 			}
 
 			// collision with enemy
@@ -586,9 +578,8 @@ public class Player extends MapObject {
 		}
 
 		// flinch
-		if (flinching && !knockback) {
-			if (flinchCount % 10 < 5)
-				return;
+		if (flinching && !knockback && flinchCount % 10 < 5) {
+			return;
 		}
 
 		super.draw(g);

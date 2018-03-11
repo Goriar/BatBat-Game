@@ -135,12 +135,6 @@ public class Level1State extends GameState {
 
 	private void populateEnemies() {
 		enemies.clear();
-		/*
-		 * Ufo t = new Ufo(tileMap, player, enemies); t.setPosition(1300, 100);
-		 * enemies.add(t); t = new Ufo(tileMap, player, enemies); t.setPosition(1330,
-		 * 100); enemies.add(t); t = new Ufo(tileMap, player, enemies);
-		 * t.setPosition(1360, 100); enemies.add(t);
-		 */
 		XhelBat gp;
 		Zogu g;
 

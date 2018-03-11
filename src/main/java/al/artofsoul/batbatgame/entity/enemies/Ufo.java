@@ -154,9 +154,8 @@ public class Ufo extends Enemy {
 			}
 		}
 		// done attacking
-		if (step == 3) {
-			if (dy == 0)
-				step++;
+		if (step == 3 && dy == 0) {
+			step++;
 		}
 		// land
 		if (step == 4) {
@@ -169,9 +168,8 @@ public class Ufo extends Enemy {
 	@Override
 	public void draw(Graphics2D g) {
 
-		if (flinching) {
-			if (flinchCount == 0 || flinchCount == 2)
-				return;
+		if (flinching && (flinchCount == 0 || flinchCount == 2)) {
+			return;
 		}
 
 		super.draw(g);

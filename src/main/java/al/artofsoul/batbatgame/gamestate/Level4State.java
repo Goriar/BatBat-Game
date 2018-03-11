@@ -14,10 +14,7 @@ import al.artofsoul.batbatgame.entity.Player;
 import al.artofsoul.batbatgame.entity.PlayerSave;
 import al.artofsoul.batbatgame.entity.Portal;
 import al.artofsoul.batbatgame.entity.Spirit;
-import al.artofsoul.batbatgame.entity.batbat.BottomLeftPiece;
-import al.artofsoul.batbatgame.entity.batbat.BottomRightPiece;
-import al.artofsoul.batbatgame.entity.batbat.TopLeftPiece;
-import al.artofsoul.batbatgame.entity.batbat.TopRightPiece;
+import al.artofsoul.batbatgame.entity.batbat.Piece;
 import al.artofsoul.batbatgame.entity.enemies.RedEnergy;
 import al.artofsoul.batbatgame.handlers.Keys;
 import al.artofsoul.batbatgame.main.GamePanel;
@@ -40,10 +37,10 @@ public class Level4State extends GameState {
 
 	private HUD hud;
 
-	private TopLeftPiece tlp;
-	private TopRightPiece trp;
-	private BottomLeftPiece blp;
-	private BottomRightPiece brp;
+	private Piece tlp;
+	private Piece trp;
+	private Piece blp;
+	private Piece brp;
 	private Portal portal;
 
 	private Spirit spirit;
@@ -105,10 +102,10 @@ public class Level4State extends GameState {
 		portal.setPosition(160, 154);
 
 		// angelspop
-		tlp = new TopLeftPiece(tileMap);
-		trp = new TopRightPiece(tileMap);
-		blp = new BottomLeftPiece(tileMap);
-		brp = new BottomRightPiece(tileMap);
+		tlp = new Piece(tileMap, new int[] { 0, 0, 10, 10 });
+		trp = new Piece(tileMap, new int[] { 10, 0, 10, 10 });
+		blp = new Piece(tileMap, new int[] { 0, 10, 10, 10 });
+		brp = new Piece(tileMap, new int[] { 10, 10, 10, 10 });
 		tlp.setPosition(152, 102);
 		trp.setPosition(162, 102);
 		blp.setPosition(152, 112);
