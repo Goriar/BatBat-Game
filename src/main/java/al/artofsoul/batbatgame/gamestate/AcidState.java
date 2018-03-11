@@ -66,4 +66,16 @@ public class AcidState extends GameState {
 			gsm.setState(GameStateManager.MENUSTATE);
 	}
 
+	@Override
+	protected void populateEnemies() {
+		// Not Necessary
+
+	}
+
+	@Override
+	protected void eventStart() {
+		// Not Necessary
+
+	}
+
 }

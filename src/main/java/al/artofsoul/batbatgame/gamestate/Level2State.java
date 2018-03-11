@@ -2,29 +2,15 @@ package al.artofsoul.batbatgame.gamestate;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.logging.Level;
-
-import javax.imageio.ImageIO;
 
 import al.artofsoul.batbatgame.audio.JukeBox;
-import al.artofsoul.batbatgame.entity.Enemy;
-import al.artofsoul.batbatgame.entity.EnemyProjectile;
-import al.artofsoul.batbatgame.entity.EnergyParticle;
-import al.artofsoul.batbatgame.entity.Explosion;
-import al.artofsoul.batbatgame.entity.HUD;
-import al.artofsoul.batbatgame.entity.Player;
 import al.artofsoul.batbatgame.entity.PlayerSave;
-import al.artofsoul.batbatgame.entity.Teleport;
 import al.artofsoul.batbatgame.entity.Title;
 import al.artofsoul.batbatgame.entity.enemies.XhelBat;
 import al.artofsoul.batbatgame.entity.enemies.Zogu;
 import al.artofsoul.batbatgame.handlers.Keys;
-import al.artofsoul.batbatgame.handlers.LoggingHelper;
 import al.artofsoul.batbatgame.main.GamePanel;
 import al.artofsoul.batbatgame.tilemap.Background;
-import al.artofsoul.batbatgame.tilemap.TileMap;
 
 /**
  * @author ArtOfSoul
@@ -34,26 +20,6 @@ public class Level2State extends GameState {
 
 	private Background perendimi;
 	private Background mountains;
-
-	private Player player;
-	private TileMap tileMap;
-	private ArrayList<Enemy> enemies;
-	private ArrayList<EnemyProjectile> eprojectiles;
-	private ArrayList<Explosion> explosions;
-
-	private HUD hud;
-	private BufferedImage batBatStart;
-	private Title title;
-	private Title subtitle;
-	private Teleport teleport;
-
-	// events
-	private boolean blockInput = false;
-	private int eventCount = 0;
-	private boolean eventStart;
-	private ArrayList<Rectangle> tb;
-	private boolean eventFinish;
-	private boolean eventDead;
 
 	public Level2State(GameStateManager gsm) {
 		super(gsm);
@@ -68,71 +34,15 @@ public class Level2State extends GameState {
 		mountains = new Background("/Backgrounds/mali2.gif", 0.2);
 
 		// tilemap
-		tileMap = new TileMap(30);
-		tileMap.loadTiles("/Tilesets/ruinstileset.gif");
-		tileMap.loadMap("/Maps/level2.map");
-		tileMap.setPosition(140, 0);
-		tileMap.setBounds(tileMap.getWidth() - 1 * tileMap.getTileSize(),
-				tileMap.getHeight() - 2 * tileMap.getTileSize(), 0, 0);
-		tileMap.setTween(1);
+		generateTileMap("/Maps/level2.map", 140, 0, true);
 
-		// player
-		player = new Player(tileMap);
-		player.setPosition(300, 161);
-		player.setHealth(PlayerSave.getHealth());
-		player.setLives(PlayerSave.getLives());
-		player.setTime(PlayerSave.getTime());
-
-		// enemies
-		enemies = new ArrayList<>();
-		eprojectiles = new ArrayList<>();
-		populateEnemies();
-
-		// energy particle
-		ArrayList<EnergyParticle> energyParticles;
-		energyParticles = new ArrayList<>();
-
-		// init player
-		player.init(enemies, energyParticles);
-
-		// explosions
-		explosions = new ArrayList<>();
-
-		// hud
-		hud = new HUD(player);
-
-		// title and subtitle
-		try {
-			batBatStart = ImageIO.read(getClass().getResourceAsStream("/HUD/batbat.gif"));
-			title = new Title(batBatStart.getSubimage(0, 0, 178, 20));
-			title.sety(60);
-			subtitle = new Title(batBatStart.getSubimage(0, 33, 91, 13));
-			subtitle.sety(85);
-		} catch (Exception e) {
-			LoggingHelper.LOGGER.log(Level.SEVERE, e.getMessage());
-		}
-
-		// teleport
-		teleport = new Teleport(tileMap);
-		teleport.setPosition(3700, 131);
-
-		// start event
-		eventStart = true;
-		tb = new ArrayList<>();
-		eventStart();
-
-		// sfx
-		JukeBox.load("/SFX/teleport.mp3", "teleport");
-		JukeBox.load("/SFX/explode.mp3", "explode");
-		JukeBox.load("/SFX/enemyhit.mp3", "enemyhit");
-
-		// music
-		JukeBox.load("/Music/level1.mp3", "level1");
-		JukeBox.loop("level1", 600, JukeBox.getFrames("level1") - 2200);
-
+		setupGameObjects(300, 161, 3700, 131, false);
+		setupTitle(new int[] { 0, 0, 178, 20 }, new int[] { 0, 33, 91, 13 });
+		setupMusic("level1", "/Music/level1.mp3", true);
 	}
 
-	private void populateEnemies() {
+	@Override
+	protected void populateEnemies() {
 		enemies.clear();
 
 		XhelBat gp;
@@ -320,7 +230,8 @@ public class Level2State extends GameState {
 	}
 
 	// level started
-	private void eventStart() {
+	@Override
+	protected void eventStart() {
 		eventCount++;
 		if (eventCount == 1) {
 			tb.clear();
@@ -375,6 +286,7 @@ public class Level2State extends GameState {
 
 	// finished level
 	private void eventFinish() {
+		JukeBox.stop("level1");
 		eventCount++;
 		if (eventCount == 1) {
 			JukeBox.play("teleport");

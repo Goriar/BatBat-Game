@@ -116,4 +116,16 @@ public class OptionsState extends GameState {
 			currentChoice++;
 		}
 	}
+
+	@Override
+	protected void populateEnemies() {
+		// Not Necessary
+
+	}
+
+	@Override
+	protected void eventStart() {
+		// Not Necessary
+
+	}
 }

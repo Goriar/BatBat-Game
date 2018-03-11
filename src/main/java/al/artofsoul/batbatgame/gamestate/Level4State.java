@@ -6,20 +6,16 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import al.artofsoul.batbatgame.audio.JukeBox;
-import al.artofsoul.batbatgame.entity.Enemy;
 import al.artofsoul.batbatgame.entity.EnergyParticle;
 import al.artofsoul.batbatgame.entity.Explosion;
-import al.artofsoul.batbatgame.entity.HUD;
 import al.artofsoul.batbatgame.entity.Player;
 import al.artofsoul.batbatgame.entity.PlayerSave;
-import al.artofsoul.batbatgame.entity.Portal;
 import al.artofsoul.batbatgame.entity.Spirit;
 import al.artofsoul.batbatgame.entity.batbat.Piece;
 import al.artofsoul.batbatgame.entity.enemies.RedEnergy;
 import al.artofsoul.batbatgame.handlers.Keys;
 import al.artofsoul.batbatgame.main.GamePanel;
 import al.artofsoul.batbatgame.tilemap.Background;
-import al.artofsoul.batbatgame.tilemap.TileMap;
 
 /**
  * @author ArtOfSoul
@@ -28,30 +24,15 @@ import al.artofsoul.batbatgame.tilemap.TileMap;
 public class Level4State extends GameState {
 
 	private Background temple;
-
-	private Player player;
-	private TileMap tileMap;
-	private ArrayList<Enemy> enemies;
 	private ArrayList<EnergyParticle> energyParticles;
-	private ArrayList<Explosion> explosions;
-
-	private HUD hud;
 
 	private Piece tlp;
 	private Piece trp;
 	private Piece blp;
 	private Piece brp;
-	private Portal portal;
 
 	private Spirit spirit;
 
-	// events
-	private boolean blockInput = false;
-	private int eventCount = 0;
-	private boolean eventStart;
-	private ArrayList<Rectangle> tb;
-	private boolean eventFinish;
-	private boolean eventDead;
 	private boolean eventPortal;
 	private boolean flash;
 	private boolean eventBossDead;
@@ -68,39 +49,12 @@ public class Level4State extends GameState {
 		temple = new Background("/Backgrounds/temple.gif", 0.5, 0);
 
 		// tilemap
-		tileMap = new TileMap(30);
-		tileMap.loadTiles("/Tilesets/ruinstileset.gif");
-		tileMap.loadMap("/Maps/level4.map");
-		tileMap.setPosition(140, 0);
-		tileMap.setTween(1);
+		generateTileMap("/Maps/level4.map", 140, 0, false);
 
-		// player
-		player = new Player(tileMap);
-		player.setPosition(50, 190);
-		player.setHealth(PlayerSave.getHealth());
-		player.setLives(PlayerSave.getLives());
-		player.setTime(PlayerSave.getTime());
+		setupGameObjects(50, 190, 160, 154, true);
+		setupMusic("level1boss", "/Music/level1boss.mp3", false);
 
-		// explosions
-		explosions = new ArrayList<>();
-
-		// enemies
-		enemies = new ArrayList<>();
-		populateEnemies();
-
-		// energy particle
 		energyParticles = new ArrayList<>();
-
-		// init player
-		player.init(enemies, energyParticles);
-
-		// hud
-		hud = new HUD(player);
-
-		// portal
-		portal = new Portal(tileMap);
-		portal.setPosition(160, 154);
-
 		// angelspop
 		tlp = new Piece(tileMap, new int[] { 0, 0, 10, 10 });
 		trp = new Piece(tileMap, new int[] { 10, 0, 10, 10 });
@@ -110,23 +64,10 @@ public class Level4State extends GameState {
 		trp.setPosition(162, 102);
 		blp.setPosition(152, 112);
 		brp.setPosition(162, 112);
-
-		// start event
-		eventStart = blockInput = true;
-		tb = new ArrayList<>();
-		eventStart();
-
-		// sfx
-		JukeBox.load("/SFX/teleport.mp3", "teleport");
-		JukeBox.load("/SFX/explode.mp3", "explode");
-		JukeBox.load("/SFX/enemyhit.mp3", "enemyhit");
-
-		// music
-		JukeBox.load("/Music/level1boss.mp3", "level1boss");
-
 	}
 
-	private void populateEnemies() {
+	@Override
+	protected void populateEnemies() {
 		enemies.clear();
 		spirit = new Spirit(tileMap, player, enemies, explosions);
 		spirit.setPosition(-9000, 9000);
@@ -172,7 +113,7 @@ public class Level4State extends GameState {
 		tileMap.update();
 		tileMap.fixBounds();
 
-		handleObjects(tileMap, enemies, new ArrayList<>(), explosions);
+		handleObjects(tileMap, enemies, eprojectiles, explosions);
 		// update portal
 		portal.update();
 
@@ -265,7 +206,8 @@ public class Level4State extends GameState {
 	}
 
 	// level started
-	private void eventStart() {
+	@Override
+	protected void eventStart() {
 		eventCount++;
 		if (eventCount == 1) {
 			tb.clear();
