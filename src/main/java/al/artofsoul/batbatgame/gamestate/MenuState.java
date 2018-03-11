@@ -1,5 +1,11 @@
 package al.artofsoul.batbatgame.gamestate;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.util.logging.Level;
+
 import javax.imageio.ImageIO;
 
 import al.artofsoul.batbatgame.audio.JukeBox;
@@ -7,10 +13,6 @@ import al.artofsoul.batbatgame.entity.PlayerSave;
 import al.artofsoul.batbatgame.handlers.Keys;
 import al.artofsoul.batbatgame.handlers.LoggingHelper;
 import al.artofsoul.batbatgame.main.GamePanel;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.logging.Level;
 
 /**
  * @author ArtOfSoul
@@ -43,17 +45,21 @@ public class MenuState extends GameState {
 			JukeBox.load("/SFX/menuoption.mp3", "menuoption");
 			JukeBox.load("/SFX/menuselect.mp3", "menuselect");
 		} catch (Exception e) {
-			LoggingHelper.LOGGER.log(Level.SEVERE,e.getMessage());
+			LoggingHelper.LOGGER.log(Level.SEVERE, e.getMessage());
 		}
 	}
 
-	public void init() {}
+	@Override
+	public void init() {
+	}
 
+	@Override
 	public void update() {
 		// check keys
 		handleInput();
 	}
 
+	@Override
 	public void draw(Graphics2D g) {
 		// draw bg
 		g.drawImage(bg, 0, 0, null);
@@ -80,7 +86,7 @@ public class MenuState extends GameState {
 		case 0:
 			JukeBox.play("menuselect");
 			PlayerSave.init();
-			gsm.setState(GameStateManager.LEVEL1STATE); /// start this level entrance											
+			gsm.setState(GameStateManager.LEVEL1STATE); /// start this level entrance
 			break;
 		case 1:
 			gsm.setState(GameStateManager.OPTIONSSTATE);
@@ -91,20 +97,17 @@ public class MenuState extends GameState {
 		}
 	}
 
+	@Override
 	public void handleInput() {
 		if (Keys.isPressed(Keys.ENTER))
 			select();
-		if (Keys.isPressed(Keys.UP)) {
-			if (currentChoice > 0) {
-				JukeBox.play("menuoption", 0);
-				currentChoice--;
-			}
+		if (Keys.isPressed(Keys.UP) && currentChoice > 0) {
+			JukeBox.play("menuoption", 0);
+			currentChoice--;
 		}
-		if (Keys.isPressed(Keys.DOWN)) {
-			if (currentChoice < options.length - 1) {
-				JukeBox.play("menuoption", 0);
-				currentChoice++;
-			}
+		if (Keys.isPressed(Keys.DOWN) && currentChoice < options.length - 1) {
+			JukeBox.play("menuoption", 0);
+			currentChoice++;
 		}
 	}
 }

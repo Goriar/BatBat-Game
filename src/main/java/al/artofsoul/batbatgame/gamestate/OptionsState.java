@@ -107,17 +107,13 @@ public class OptionsState extends GameState {
 	public void handleInput() {
 		if (Keys.isPressed(Keys.ENTER))
 			select();
-		if (Keys.isPressed(Keys.UP)) {
-			if (currentChoice > 0) {
-				JukeBox.play("menuoption", 0);
-				currentChoice--;
-			}
+		if (Keys.isPressed(Keys.UP) && currentChoice > 0) {
+			JukeBox.play("menuoption", 0);
+			currentChoice--;
 		}
-		if (Keys.isPressed(Keys.DOWN)) {
-			if (currentChoice < options.length - 1) {
-				JukeBox.play("menuoption", 0);
-				currentChoice++;
-			}
+		if (Keys.isPressed(Keys.DOWN) && currentChoice < options.length - 1) {
+			JukeBox.play("menuoption", 0);
+			currentChoice++;
 		}
 	}
 }

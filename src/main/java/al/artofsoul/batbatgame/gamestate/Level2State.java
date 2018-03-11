@@ -134,12 +134,6 @@ public class Level2State extends GameState {
 
 	private void populateEnemies() {
 		enemies.clear();
-		/*
-		 * Ufo t = new Ufo(tileMap, player, enemies); t.setPosition(1300, 100);
-		 * enemies.add(t); t = new Ufo(tileMap, player, enemies); t.setPosition(1330,
-		 * 100); enemies.add(t); t = new Ufo(tileMap, player, enemies);
-		 * t.setPosition(1360, 100); enemies.add(t);
-		 */
 
 		XhelBat gp;
 		Zogu g;
@@ -231,35 +225,7 @@ public class Level2State extends GameState {
 		tileMap.update();
 		tileMap.fixBounds();
 
-		// update enemies
-		for (int i = 0; i < enemies.size(); i++) {
-			Enemy e = enemies.get(i);
-			e.update();
-			if (e.isDead()) {
-				enemies.remove(i);
-				i--;
-				explosions.add(new Explosion(tileMap, e.getx(), e.gety()));
-			}
-		}
-
-		// update enemy projectiles
-		for (int i = 0; i < eprojectiles.size(); i++) {
-			EnemyProjectile ep = eprojectiles.get(i);
-			ep.update();
-			if (ep.shouldRemove()) {
-				eprojectiles.remove(i);
-				i--;
-			}
-		}
-
-		// update explosions
-		for (int i = 0; i < explosions.size(); i++) {
-			explosions.get(i).update();
-			if (explosions.get(i).shouldRemove()) {
-				explosions.remove(i);
-				i--;
-			}
-		}
+		handleObjects(tileMap, enemies, eprojectiles, explosions);
 
 		// update teleport
 		teleport.update();

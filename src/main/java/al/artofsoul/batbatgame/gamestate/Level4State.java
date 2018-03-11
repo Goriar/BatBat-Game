@@ -123,7 +123,6 @@ public class Level4State extends GameState {
 
 		// music
 		JukeBox.load("/Music/level1boss.mp3", "level1boss");
-		// JukeBox.load("/Music/fanfare.mp3", "fanfare");
 
 	}
 
@@ -173,26 +172,7 @@ public class Level4State extends GameState {
 		tileMap.update();
 		tileMap.fixBounds();
 
-		// update enemies
-		for (int i = 0; i < enemies.size(); i++) {
-			Enemy e = enemies.get(i);
-			e.update();
-			if (e.isDead() || e.shouldRemove()) {
-				enemies.remove(i);
-				i--;
-				explosions.add(new Explosion(tileMap, e.getx(), e.gety()));
-			}
-		}
-
-		// update explosions
-		for (int i = 0; i < explosions.size(); i++) {
-			explosions.get(i).update();
-			if (explosions.get(i).shouldRemove()) {
-				explosions.remove(i);
-				i--;
-			}
-		}
-
+		handleObjects(tileMap, enemies, new ArrayList<>(), explosions);
 		// update portal
 		portal.update();
 
@@ -363,10 +343,9 @@ public class Level4State extends GameState {
 
 	private void eventPortal() {
 		eventCount++;
-		if (eventCount == 1) {
-			if (portal.isOpened()) {
-				eventCount = 360;
-			}
+		if (eventCount == 1 && portal.isOpened()) {
+			eventCount = 360;
+
 		}
 		if (eventCount > 60 && eventCount < 180) {
 			Random rnd = new Random();

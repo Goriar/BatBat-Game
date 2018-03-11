@@ -29,6 +29,10 @@ public class Keys {
 	public static final int ENTER = 8;
 	public static final int ESCAPE = 9;
 
+	private Keys() {
+		throw new IllegalStateException("Utility Class");
+	}
+
 	public static void keySet(int i, boolean b) {
 		if (i == KeyEvent.VK_UP)
 			getKeyState()[UP] = b;
