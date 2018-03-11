@@ -120,6 +120,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 				java.io.File out = new java.io.File("screenshot " + System.nanoTime() + ".gif");
 				javax.imageio.ImageIO.write(image, "gif", out);
 			} catch (Exception e) {
+				LoggingHelper.LOGGER.log(Level.SEVERE, e.getMessage());
 			}
 		}
 		if (!recording)
@@ -129,6 +130,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			javax.imageio.ImageIO.write(image, "gif", out);
 			recordingCount++;
 		} catch (Exception e) {
+			LoggingHelper.LOGGER.log(Level.SEVERE, e.getMessage());
 		}
 	}
 

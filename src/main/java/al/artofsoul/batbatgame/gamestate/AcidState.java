@@ -37,6 +37,7 @@ public class AcidState extends GameState {
 
 	@Override
 	public void init() {
+		// No init necessary
 	}
 
 	@Override

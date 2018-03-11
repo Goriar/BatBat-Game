@@ -422,7 +422,7 @@ public class Player extends MapObject {
 		}
 
 		for (Integer i : particlesToRemove) {
-			energyParticles.remove(i);
+			energyParticles.remove(i.intValue());
 		}
 
 		// check attack finished
