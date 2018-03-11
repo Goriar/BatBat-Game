@@ -196,7 +196,7 @@ public class Level4State extends GameState {
 	private void reset() {
 		player.reset();
 		player.setPosition(50, 190);
-		populateEnemies(null, null);
+		populateEnemies(enemyTypesInLevel, coords);
 		eventStart = blockInput = true;
 		eventCount = 0;
 		eventStart();
