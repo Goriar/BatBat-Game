@@ -2,9 +2,11 @@ package al.artofsoul.BatBatGame.TileMap;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
 
+import al.artofsoul.BatBatGame.Handlers.LoggingHelper;
 import al.artofsoul.BatBatGame.Main.GamePanel;
 
 /**
@@ -46,7 +48,7 @@ public class Background {
 			yscale = d2;
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			LoggingHelper.LOGGER.log(Level.SEVERE,e.getMessage());
 		}
 	}
 	
@@ -62,7 +64,7 @@ public class Background {
 			yscale = ms;
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			LoggingHelper.LOGGER.log(Level.SEVERE,e.getMessage());
 		}
 	}
 	

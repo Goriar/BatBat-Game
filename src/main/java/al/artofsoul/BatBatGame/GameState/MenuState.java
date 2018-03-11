@@ -3,11 +3,13 @@ package al.artofsoul.BatBatGame.GameState;
 import al.artofsoul.BatBatGame.Audio.JukeBox;
 import al.artofsoul.BatBatGame.Entity.PlayerSave;
 import al.artofsoul.BatBatGame.Handlers.Keys;
+import al.artofsoul.BatBatGame.Handlers.LoggingHelper;
 import al.artofsoul.BatBatGame.Main.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.logging.Level;
 
 /**
  * @author ArtOfSoul
@@ -40,7 +42,7 @@ public class MenuState extends GameState {
 			JukeBox.load("/SFX/menuoption.mp3", "menuoption");
 			JukeBox.load("/SFX/menuselect.mp3", "menuselect");
 		} catch (Exception e) {
-			e.printStackTrace();
+			LoggingHelper.LOGGER.log(Level.SEVERE,e.getMessage());
 		}
 	}
 

@@ -21,9 +21,9 @@ public class RedEnergy extends Enemy {
 	private boolean permanent;
 	
 	private int type = 0;
-	public static int VECTOR = 0;
-	public static int GRAVITY = 1;
-	public static int BOUNCE = 2;
+	public static final int VECTOR = 0;
+	public static final int GRAVITY = 1;
+	public static final int BOUNCE = 2;
 	
 	private int bounceCount = 0;
 	
@@ -41,8 +41,8 @@ public class RedEnergy extends Enemy {
 		damage = 1;
 		moveSpeed = 5;
 		
-		startSprites = Content.RedEnergy[0];
-		sprites = Content.RedEnergy[1];
+		startSprites = Content.RED_ENERGY[0];
+		sprites = Content.RED_ENERGY[1];
 		
 		animation.setFrames(startSprites);
 		animation.setDelay(2);

@@ -18,10 +18,10 @@ public class EnergyParticle extends MapObject {
 	
 	private BufferedImage[] sprites;
 	
-	public static int UP = 0;
-	public static int LEFT = 1;
-	public static int DOWN = 2;
-	public static int RIGHT = 3;
+	public static final int UP = 0;
+	public static final int LEFT = 1;
+	public static final int DOWN = 2;
+	public static final int RIGHT = 3;
 	
 	public EnergyParticle(TileMap tm, double x, double y, int dir) {
 		super(tm);
@@ -47,7 +47,7 @@ public class EnergyParticle extends MapObject {
 		}
 		
 		count = 0;
-		sprites = Content.EnergyParticle[0];
+		sprites = Content.ENERGY_PARTICLE[0];
 		animation.setFrames(sprites);
 		animation.setDelay(-1);
 	}

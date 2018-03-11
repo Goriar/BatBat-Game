@@ -4,10 +4,12 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
 
 import al.artofsoul.BatBatGame.Audio.JukeBox;
+import al.artofsoul.BatBatGame.Handlers.LoggingHelper;
 import al.artofsoul.BatBatGame.TileMap.TileMap;
 
 /**
@@ -156,7 +158,7 @@ public class Player extends MapObject {
 			
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			LoggingHelper.LOGGER.log(Level.SEVERE,e.getMessage());
 		}
 		
 		energyParticles = new ArrayList<EnergyParticle>();

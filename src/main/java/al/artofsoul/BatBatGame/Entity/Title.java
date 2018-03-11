@@ -2,9 +2,11 @@ package al.artofsoul.BatBatGame.Entity;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
 
+import al.artofsoul.BatBatGame.Handlers.LoggingHelper;
 import al.artofsoul.BatBatGame.Main.GamePanel;
 
 /**
@@ -14,9 +16,9 @@ import al.artofsoul.BatBatGame.Main.GamePanel;
 
 public class Title {
 	
-	public BufferedImage image;
+	private BufferedImage image;
 	
-	public int count;
+	private int count;
 	private boolean done;
 	private boolean remove;
 	
@@ -35,7 +37,7 @@ public class Title {
 			done = false;
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			LoggingHelper.LOGGER.log(Level.SEVERE,e.getMessage());
 		}
 		
 	}

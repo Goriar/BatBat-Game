@@ -2,9 +2,11 @@ package al.artofsoul.BatBatGame.Entity;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
 
+import al.artofsoul.BatBatGame.Handlers.LoggingHelper;
 import al.artofsoul.BatBatGame.TileMap.TileMap;
 
 /**
@@ -36,7 +38,7 @@ public class Teleport extends MapObject {
 			animation.setDelay(1);
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			LoggingHelper.LOGGER.log(Level.SEVERE,e.getMessage());
 		}
 	}
 	

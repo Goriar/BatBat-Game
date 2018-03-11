@@ -3,10 +3,12 @@ package al.artofsoul.BatBatGame.Entity;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
 
 import al.artofsoul.BatBatGame.Entity.Enemies.RedEnergy;
+import al.artofsoul.BatBatGame.Handlers.LoggingHelper;
 import al.artofsoul.BatBatGame.TileMap.TileMap;
 
 /**
@@ -16,7 +18,7 @@ import al.artofsoul.BatBatGame.TileMap.TileMap;
 
 public class Spirit extends Enemy {
 	
-	public BufferedImage[] sprites;
+	private BufferedImage[] sprites;
 	private Player player;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Explosion> explosions;
@@ -67,7 +69,7 @@ public class Spirit extends Enemy {
 			}
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			LoggingHelper.LOGGER.log(Level.SEVERE,e.getMessage());
 		}
 		
 		damage = 1;

@@ -6,11 +6,13 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.util.logging.Level;
 
 import javax.swing.JPanel;
 
 import al.artofsoul.BatBatGame.GameState.GameStateManager;
 import al.artofsoul.BatBatGame.Handlers.Keys;
+import al.artofsoul.BatBatGame.Handlers.LoggingHelper;
 
 
 @SuppressWarnings("serial")
@@ -96,7 +98,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 				Thread.sleep(wait);
 			}
 			catch(Exception e) {
-				e.printStackTrace();
+				LoggingHelper.LOGGER.log(Level.SEVERE,e.getMessage());
 			}
 			
 		}

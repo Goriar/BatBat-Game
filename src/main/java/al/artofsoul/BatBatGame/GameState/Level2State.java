@@ -5,6 +5,7 @@ import al.artofsoul.BatBatGame.Entity.*;
 import al.artofsoul.BatBatGame.Entity.Enemies.XhelBat;
 import al.artofsoul.BatBatGame.Entity.Enemies.Zogu;
 import al.artofsoul.BatBatGame.Handlers.Keys;
+import al.artofsoul.BatBatGame.Handlers.LoggingHelper;
 import al.artofsoul.BatBatGame.Main.GamePanel;
 import al.artofsoul.BatBatGame.TileMap.Background;
 import al.artofsoul.BatBatGame.TileMap.TileMap;
@@ -13,6 +14,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 /**
  * @author ArtOfSoul
@@ -96,7 +98,7 @@ public class Level2State extends GameState {
             subtitle = new Title(batBatStart.getSubimage(0, 33, 91, 13));
             subtitle.sety(85);
         } catch (Exception e) {
-            e.printStackTrace();
+        	LoggingHelper.LOGGER.log(Level.SEVERE,e.getMessage());
         }
 
         // teleport
@@ -307,12 +309,12 @@ public class Level2State extends GameState {
             gsm.setPaused(true);
         if (blockInput || player.getHealth() == 0)
             return;
-        player.setUp(Keys.keyState[Keys.UP]);
-        player.setLeft(Keys.keyState[Keys.LEFT]);
-        player.setDown(Keys.keyState[Keys.DOWN]);
-        player.setRight(Keys.keyState[Keys.RIGHT]);
-        player.setJumping(Keys.keyState[Keys.BUTTON1]);
-        player.setDashing(Keys.keyState[Keys.BUTTON2]);
+        player.setUp(Keys.KEY_STATE[Keys.UP]);
+        player.setLeft(Keys.KEY_STATE[Keys.LEFT]);
+        player.setDown(Keys.KEY_STATE[Keys.DOWN]);
+        player.setRight(Keys.KEY_STATE[Keys.RIGHT]);
+        player.setJumping(Keys.KEY_STATE[Keys.BUTTON1]);
+        player.setDashing(Keys.KEY_STATE[Keys.BUTTON2]);
         if (Keys.isPressed(Keys.BUTTON3))
             player.setAttacking();
         if (Keys.isPressed(Keys.BUTTON4))

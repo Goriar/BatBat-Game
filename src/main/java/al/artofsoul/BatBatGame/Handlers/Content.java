@@ -1,6 +1,8 @@
 package al.artofsoul.BatBatGame.Handlers;
 
 import java.awt.image.BufferedImage;
+import java.util.logging.Level;
+
 import javax.imageio.ImageIO;
 
 /**
@@ -13,13 +15,13 @@ import javax.imageio.ImageIO;
 
 public class Content {
 	
-	public static BufferedImage[][] EnergyParticle = load("/Sprites/Player/EnergyParticle.gif", 5, 5);
-	public static BufferedImage[][] Explosion = load("/Sprites/Enemies/ExplosionRed.gif", 30, 30);
+	public static final BufferedImage[][] ENERGY_PARTICLE = load("/Sprites/Player/EnergyParticle.gif", 5, 5);
+	public static final BufferedImage[][] EXPLOSIONS = load("/Sprites/Enemies/ExplosionRed.gif", 30, 30);
 	
-	public static BufferedImage[][] Zogu = load("/Sprites/Enemies/Zogu.gif", 39, 20);
-	public static BufferedImage[][] Ufo = load("/Sprites/Enemies/Ufo.gif", 30, 30);
-	public static BufferedImage[][] XhelBat = load("/Sprites/Enemies/XhelBat.gif", 25, 25);
-	public static BufferedImage[][] RedEnergy = load("/Sprites/Enemies/RedEnergy.gif", 20, 20);
+	public static final BufferedImage[][] ZOGU = load("/Sprites/Enemies/Zogu.gif", 39, 20);
+	public static final BufferedImage[][] UFO = load("/Sprites/Enemies/Ufo.gif", 30, 30);
+	public static final BufferedImage[][] XHELBAT = load("/Sprites/Enemies/XhelBat.gif", 25, 25);
+	public static final BufferedImage[][] RED_ENERGY = load("/Sprites/Enemies/RedEnergy.gif", 20, 20);
 	
 	public static BufferedImage[][] load(String s, int w, int h) {
 		BufferedImage[][] ret;
@@ -36,7 +38,7 @@ public class Content {
 			return ret;
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			LoggingHelper.LOGGER.log(Level.SEVERE,e.getMessage());
 			System.out.println("Error loading graphics.");
 			System.exit(0);
 		}

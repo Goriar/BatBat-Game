@@ -38,7 +38,7 @@ public class XhelBat extends Enemy {
 		maxFallSpeed = 4.0;
 		jumpStart = -5;
 		
-		sprites = Content.XhelBat[0];
+		sprites = Content.XHELBAT[0];
 		
 		animation.setFrames(sprites);
 		animation.setDelay(4);

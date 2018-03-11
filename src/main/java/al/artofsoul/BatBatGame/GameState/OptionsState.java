@@ -2,12 +2,14 @@ package al.artofsoul.BatBatGame.GameState;
 
 import al.artofsoul.BatBatGame.Audio.JukeBox;
 import al.artofsoul.BatBatGame.Handlers.Keys;
+import al.artofsoul.BatBatGame.Handlers.LoggingHelper;
 import al.artofsoul.BatBatGame.Main.GamePanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.logging.Level;
 
 /**
  * @author ArtOfSoul
@@ -48,7 +50,7 @@ public class OptionsState extends GameState {
             JukeBox.load("/SFX/menuselect.mp3", "menuselect");
 
         } catch (Exception e) {
-            e.printStackTrace();
+        	LoggingHelper.LOGGER.log(Level.SEVERE,e.getMessage());
         }
     }
 

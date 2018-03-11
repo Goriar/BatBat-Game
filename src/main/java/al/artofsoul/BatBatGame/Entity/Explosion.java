@@ -35,7 +35,7 @@ public class Explosion extends MapObject {
 		speed = 2;
 		diagSpeed = 1.41;
 		
-		sprites = Content.Explosion[0];
+		sprites = Content.EXPLOSIONS[0];
 		
 		animation.setFrames(sprites);
 		animation.setDelay(6);

@@ -2,8 +2,11 @@ package al.artofsoul.BatBatGame.Entity;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
+
+import al.artofsoul.BatBatGame.Handlers.LoggingHelper;
 
 /**
  * @author ArtOfSoul
@@ -29,7 +32,7 @@ public class HUD {
 			life = image.getSubimage(0, 12, 12, 11);
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			LoggingHelper.LOGGER.log(Level.SEVERE,e.getMessage());
 		}
 	}
 	

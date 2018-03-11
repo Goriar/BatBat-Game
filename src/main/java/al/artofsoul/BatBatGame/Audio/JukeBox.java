@@ -1,7 +1,9 @@
 package al.artofsoul.BatBatGame.Audio;
 
 import java.util.HashMap;
+import java.util.logging.Level;
 
+import al.artofsoul.BatBatGame.Handlers.LoggingHelper;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -47,7 +49,7 @@ public class JukeBox {
 			clips.put(n, clip);
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			LoggingHelper.LOGGER.log(Level.SEVERE,e.getMessage());
 		}
 	}
 	
