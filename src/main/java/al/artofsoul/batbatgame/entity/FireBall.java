@@ -102,10 +102,6 @@ public class FireBall extends MapObject {
 		
 	}
 	
-	public void draw(Graphics2D g) {
-		super.draw(g);
-	}
-	
 }
 
 

@@ -26,8 +26,4 @@ public abstract class EnemyProjectile extends MapObject {
 	
 	public abstract void update();
 	
-	public void draw(Graphics2D g) {
-		super.draw(g);
-	}
-	
 }

@@ -22,7 +22,7 @@ public class JukeBox {
 	private static boolean mute = false;
 	
 	public static void init() {
-		clips = new HashMap<String, Clip>();
+		clips = new HashMap<>();
 		gap = 0;
 	}
 	

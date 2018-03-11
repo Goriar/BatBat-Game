@@ -61,8 +61,4 @@ public class EnergyParticle extends MapObject {
 	
 	public boolean shouldRemove() { return remove; }
 	
-	public void draw(Graphics2D g) {
-		super.draw(g);
-	}
-	
 }
