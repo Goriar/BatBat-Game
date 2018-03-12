@@ -18,17 +18,16 @@ public class Level1State extends GameState {
 	public void init(int nextLevel) {
 		// backgrounds
 		super.init(nextLevel);
-		sky = new Background("/Backgrounds/qielli.gif", 0);
-		clouds = new Background("/Backgrounds/rete.gif", 0.1);
-		mountains = new Background("/Backgrounds/mali.gif", 0.2);
 
 		generateTileMap("/Maps/level1.map", 0, 120, true);
 
 		setupGameObjects(140, 191, 3700, 131, false);
 
-		setupTitle(new int[] { 0, 0, 178, 19 }, new int[] { 0, 20, 82, 13 });
 		setupMusic("level1", "/Music/level1.mp3", true);
 
+		sky = new Background("/Backgrounds/qielli.gif", 0);
+		clouds = new Background("/Backgrounds/rete.gif", 0.1);
+		mountains = new Background("/Backgrounds/mali.gif", 0.2);
 		enemyTypesInLevel = new EnemyType[] { EnemyType.XHELBAT, EnemyType.XHELBAT, EnemyType.XHELBAT,
 				EnemyType.XHELBAT, EnemyType.XHELBAT, EnemyType.XHELBAT, EnemyType.XHELBAT, EnemyType.XHELBAT,
 				EnemyType.XHELBAT, EnemyType.XHELBAT, EnemyType.ZOGU, EnemyType.ZOGU };
@@ -38,6 +37,7 @@ public class Level1State extends GameState {
 				new int[] { 3500, 100 } };
 
 		populateEnemies(enemyTypesInLevel, coords);
+		setupTitle(new int[] { 0, 0, 178, 19 }, new int[] { 0, 20, 82, 13 });
 	}
 
 }

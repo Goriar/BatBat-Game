@@ -74,6 +74,7 @@ public abstract class MapObject {
 		tileSize = tm.getTileSize();
 		animation = new Animation();
 		facingRight = true;
+		currentAction = -1;
 	}
 
 	public boolean intersects(MapObject o) {
