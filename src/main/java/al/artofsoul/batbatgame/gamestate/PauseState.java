@@ -66,4 +66,16 @@ public class PauseState extends GameState {
 
 	}
 
+	@Override
+	protected void eventDead() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void eventFinish() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

@@ -1,6 +1,5 @@
 package al.artofsoul.batbatgame.gamestate;
 
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import al.artofsoul.batbatgame.audio.JukeBox;
@@ -16,10 +15,6 @@ import al.artofsoul.batbatgame.tilemap.Background;
  */
 
 public class Level1State extends GameState {
-
-	private Background sky;
-	private Background clouds;
-	private Background mountains;
 
 	public Level1State(GameStateManager gsm) {
 		super(gsm);
@@ -49,110 +44,6 @@ public class Level1State extends GameState {
 				new int[] { 3500, 100 } };
 
 		populateEnemies(enemyTypesInLevel, coords);
-	}
-
-	@Override
-	public void update() {
-
-		// check keys
-		handleInput();
-
-		// check if end of level event should start
-		if (teleport.contains(player)) {
-			eventFinish = blockInput = true;
-		}
-
-		// check if player dead event should start
-		if (player.getHealth() == 0 || player.gety() > tileMap.getHeight()) {
-			eventDead = blockInput = true;
-		}
-
-		// play events
-		if (eventStart)
-			eventStart();
-		if (eventDead)
-			eventDead();
-		if (eventFinish)
-			eventFinish();
-
-		// move title and subtitle
-		if (title != null) {
-			title.update();
-			if (title.shouldRemove())
-				title = null;
-		}
-		if (subtitle != null) {
-			subtitle.update();
-			if (subtitle.shouldRemove())
-				subtitle = null;
-		}
-
-		// move backgrounds
-		clouds.setPosition(tileMap.getx(), tileMap.gety());
-		mountains.setPosition(tileMap.getx(), tileMap.gety());
-
-		// update player
-		player.update();
-
-		// update tilemap
-		tileMap.setPosition(GamePanel.WIDTH / 2.0 - player.getx(), GamePanel.HEIGHT / 2.0 - player.gety());
-		tileMap.update();
-		tileMap.fixBounds();
-
-		handleObjects(tileMap, enemies, eprojectiles, explosions);
-
-		// update teleport
-		teleport.update();
-
-	}
-
-	@Override
-	public void draw(Graphics2D g) {
-
-		// draw background
-		sky.draw(g);
-		clouds.draw(g);
-		mountains.draw(g);
-
-		// draw tilemap
-		tileMap.draw(g);
-
-		// draw enemies
-		for (int i = 0; i < enemies.size(); i++) {
-			enemies.get(i).draw(g);
-		}
-
-		// draw enemy projectiles
-		for (int i = 0; i < eprojectiles.size(); i++) {
-			eprojectiles.get(i).draw(g);
-		}
-
-		// draw explosions
-		for (int i = 0; i < explosions.size(); i++) {
-			explosions.get(i).draw(g);
-		}
-
-		// draw player
-		player.draw(g);
-
-		// draw teleport
-		teleport.draw(g);
-
-		// draw hud
-		hud.draw(g);
-
-		// draw title
-		if (title != null)
-			title.draw(g);
-		if (subtitle != null)
-			subtitle.draw(g);
-
-		// draw transition boxes
-		g.setColor(java.awt.Color.BLACK);
-		for (int i = 0; i < tb.size(); i++) {
-			g.fill(tb.get(i));
-		}
-
 	}
 
 	@Override
@@ -221,7 +112,8 @@ public class Level1State extends GameState {
 	}
 
 	// player has died
-	private void eventDead() {
+	@Override
+	protected void eventDead() {
 		eventCount++;
 		if (eventCount == 1) {
 			player.setDead();
@@ -249,7 +141,8 @@ public class Level1State extends GameState {
 	}
 
 	// finished level
-	private void eventFinish() {
+	@Override
+	protected void eventFinish() {
 		JukeBox.stop("level1");
 		eventCount++;
 		if (eventCount == 1) {

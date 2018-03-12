@@ -129,4 +129,16 @@ public class OptionsState extends GameState {
 		// Not Necessary
 
 	}
+
+	@Override
+	protected void eventDead() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void eventFinish() {
+		// TODO Auto-generated method stub
+
+	}
 }

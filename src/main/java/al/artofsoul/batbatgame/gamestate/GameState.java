@@ -27,6 +27,8 @@ import al.artofsoul.batbatgame.entity.enemies.Ufo;
 import al.artofsoul.batbatgame.entity.enemies.XhelBat;
 import al.artofsoul.batbatgame.entity.enemies.Zogu;
 import al.artofsoul.batbatgame.handlers.LoggingHelper;
+import al.artofsoul.batbatgame.main.GamePanel;
+import al.artofsoul.batbatgame.tilemap.Background;
 import al.artofsoul.batbatgame.tilemap.TileMap;
 
 /**
@@ -63,19 +65,25 @@ public abstract class GameState {
 	protected EnemyType[] enemyTypesInLevel;
 	protected int[][] coords;
 
+	protected Background sky;
+	protected Background clouds;
+	protected Background mountains;
+	protected Background perendimi;
+	protected Background temple;
+
 	public GameState(GameStateManager gsm) {
 		this.gsm = gsm;
 	}
 
 	public abstract void init();
 
-	public abstract void update();
-
-	public abstract void draw(Graphics2D g);
-
 	public abstract void handleInput();
 
+	protected abstract void eventDead();
+
 	protected abstract void eventStart();
+
+	protected abstract void eventFinish();
 
 	protected void handleObjects(TileMap tileMap, List<Enemy> enemies, List<EnemyProjectile> eprojectiles,
 			List<Explosion> explosions) {
@@ -217,6 +225,7 @@ public abstract class GameState {
 				break;
 			case SPIRIT:
 				e = new Spirit(this.tileMap, this.player, this.enemies, this.explosions);
+				break;
 			default:
 				e = new Zogu(this.tileMap);
 				break;
@@ -224,6 +233,124 @@ public abstract class GameState {
 
 			e.setPosition(coords[i][0], coords[i][1]);
 			this.enemies.add(e);
+		}
+	}
+
+	public void update() {
+
+		// check keys
+		handleInput();
+
+		// check if end of level event should start
+		if (teleport.contains(player)) {
+			eventFinish = blockInput = true;
+		}
+
+		// check if player dead event should start
+		if (player.getHealth() == 0 || player.gety() > tileMap.getHeight()) {
+			eventDead = blockInput = true;
+		}
+
+		// play events
+		if (eventStart)
+			eventStart();
+		if (eventDead)
+			eventDead();
+		if (eventFinish)
+			eventFinish();
+
+		// move title and subtitle
+		if (title != null) {
+			title.update();
+			if (title.shouldRemove())
+				title = null;
+		}
+		if (subtitle != null) {
+			subtitle.update();
+			if (subtitle.shouldRemove())
+				subtitle = null;
+		}
+
+		// move backgrounds
+		if (clouds != null)
+			clouds.setPosition(tileMap.getx(), tileMap.gety());
+		if (mountains != null)
+			mountains.setPosition(tileMap.getx(), tileMap.gety());
+		if (sky != null)
+			sky.setPosition(tileMap.getx(), tileMap.gety());
+		if (perendimi != null)
+			perendimi.setPosition(tileMap.getx(), tileMap.gety());
+		if (temple != null)
+			temple.setPosition(tileMap.getx(), tileMap.gety());
+		// update player
+		player.update();
+
+		// update tilemap
+		tileMap.setPosition(GamePanel.WIDTH / 2.0 - player.getx(), GamePanel.HEIGHT / 2.0 - player.gety());
+		tileMap.update();
+		tileMap.fixBounds();
+
+		handleObjects(tileMap, enemies, eprojectiles, explosions);
+
+		// update teleport
+		if (teleport != null)
+			teleport.update();
+
+	}
+
+	public void draw(Graphics2D g) {
+		// draw background
+		if (sky != null)
+			sky.draw(g);
+		if (clouds != null)
+			clouds.draw(g);
+		if (mountains != null)
+			mountains.draw(g);
+		if (perendimi != null)
+			perendimi.draw(g);
+		if (temple != null)
+			temple.draw(g);
+
+		// draw tilemap
+		tileMap.draw(g);
+
+		// draw enemies
+		for (int i = 0; i < enemies.size(); i++) {
+			enemies.get(i).draw(g);
+		}
+
+		// draw enemy projectiles
+		for (int i = 0; i < eprojectiles.size(); i++) {
+			eprojectiles.get(i).draw(g);
+		}
+
+		// draw explosions
+		for (int i = 0; i < explosions.size(); i++) {
+			explosions.get(i).draw(g);
+		}
+
+		// draw player
+		player.draw(g);
+
+		// draw teleport
+		if (teleport != null)
+			teleport.draw(g);
+		if (portal != null)
+			portal.draw(g);
+
+		// draw hud
+		hud.draw(g);
+
+		// draw title
+		if (title != null)
+			title.draw(g);
+		if (subtitle != null)
+			subtitle.draw(g);
+
+		// draw transition boxes
+		g.setColor(java.awt.Color.BLACK);
+		for (int i = 0; i < tb.size(); i++) {
+			g.fill(tb.get(i));
 		}
 	}
 }

@@ -24,7 +24,6 @@ import al.artofsoul.batbatgame.tilemap.Background;
 
 public class Level4State extends GameState {
 
-	private Background temple;
 	private ArrayList<EnergyParticle> energyParticles;
 
 	private Piece tlp;
@@ -74,43 +73,11 @@ public class Level4State extends GameState {
 	@Override
 	public void update() {
 
-		// check keys
-		handleInput();
-
-		// check if boss dead event should start
-		if (!eventFinish && spirit.isDead()) {
-			eventBossDead = blockInput = true;
-		}
-
-		// check if player dead event should start
-		if (player.getHealth() == 0 || player.gety() > tileMap.getHeight()) {
-			eventDead = blockInput = true;
-		}
-
-		// play events
-		if (eventStart)
-			eventStart();
-		if (eventDead)
-			eventDead();
-		if (eventFinish)
-			eventFinish();
+		super.update();
 		if (eventPortal)
 			eventPortal();
 		if (eventBossDead)
 			eventBossDead();
-
-		// move backgrounds
-		temple.setPosition(tileMap.getx(), tileMap.gety());
-
-		// update player
-		player.update();
-
-		// update tilemap
-		tileMap.setPosition(GamePanel.WIDTH / 2.0 - player.getx(), GamePanel.HEIGHT / 2.0 - player.gety());
-		tileMap.update();
-		tileMap.fixBounds();
-
-		handleObjects(tileMap, enemies, eprojectiles, explosions);
 		// update portal
 		portal.update();
 
@@ -125,42 +92,12 @@ public class Level4State extends GameState {
 	@Override
 	public void draw(Graphics2D g) {
 
-		// draw background
-		temple.draw(g);
-
-		// draw tilemap
-		tileMap.draw(g);
-
-		// draw portal
-		portal.draw(g);
-
-		// draw enemies
-		for (int i = 0; i < enemies.size(); i++) {
-			enemies.get(i).draw(g);
-		}
-
-		// draw explosions
-		for (int i = 0; i < explosions.size(); i++) {
-			explosions.get(i).draw(g);
-		}
-
+		super.draw(g);
 		// draw angelspop
 		tlp.draw(g);
 		trp.draw(g);
 		blp.draw(g);
 		brp.draw(g);
-
-		// draw player
-		player.draw(g);
-
-		// draw hud
-		hud.draw(g);
-
-		// draw transition boxes
-		g.setColor(java.awt.Color.BLACK);
-		for (int i = 0; i < tb.size(); i++) {
-			g.fill(tb.get(i));
-		}
 
 		// flash
 		if (flash) {
@@ -232,7 +169,8 @@ public class Level4State extends GameState {
 	}
 
 	// player has died
-	private void eventDead() {
+	@Override
+	protected void eventDead() {
 		eventCount++;
 		if (eventCount == 1) {
 			player.setDead();
@@ -260,7 +198,8 @@ public class Level4State extends GameState {
 	}
 
 	// finished level
-	private void eventFinish() {
+	@Override
+	protected void eventFinish() {
 		eventCount++;
 		if (eventCount == 1) {
 			tb.clear();
