@@ -74,6 +74,8 @@ public abstract class GameState extends BasicState {
 	protected int nextLevelState;
 	protected String levelMusicName;
 
+	private static final String TELEPORT_MUSIC_NAME = "teleport";
+
 	public GameState(GameStateManager gsm) {
 		super(gsm);
 	}
@@ -82,6 +84,7 @@ public abstract class GameState extends BasicState {
 		nextLevelState = nextLevel;
 	}
 
+	@Override
 	public void handleInput() {
 		if (Keys.isPressed(Keys.ESCAPE))
 			gsm.setPaused(true);
@@ -195,13 +198,13 @@ public abstract class GameState extends BasicState {
 		// start event
 		eventStart = true;
 		tb = new ArrayList<>();
-		eventStart();
+		eventStartFunc();
 	}
 
 	protected void setupMusic(String level, String bgMusic, boolean loop) {
 		// sfx
 		levelMusicName = level;
-		JukeBox.load("/SFX/teleport.mp3", "teleport");
+		JukeBox.load("/SFX/teleport.mp3", TELEPORT_MUSIC_NAME);
 		JukeBox.load("/SFX/explode.mp3", "explode");
 		JukeBox.load("/SFX/enemyhit.mp3", "enemyhit");
 
@@ -271,11 +274,11 @@ public abstract class GameState extends BasicState {
 
 		// play events
 		if (eventStart)
-			eventStart();
+			eventStartFunc();
 		if (eventDead)
-			eventDead();
+			eventDeadFunc();
 		if (eventFinish)
-			eventFinish();
+			eventFinishFunc();
 
 		// move title and subtitle
 		if (title != null) {
@@ -378,14 +381,14 @@ public abstract class GameState extends BasicState {
 		eventCount = 0;
 		tileMap.setShaking(false, 0);
 		eventStart = true;
-		eventStart();
+		eventStartFunc();
 		if (title != null)
 			title.reset();
 		if (subtitle != null)
 			subtitle.reset();
 	}
 
-	protected void eventStart() {
+	protected void eventStartFunc() {
 		eventCount++;
 		if (eventCount == 1) {
 			tb.clear();
@@ -414,7 +417,7 @@ public abstract class GameState extends BasicState {
 	}
 
 	// player has died
-	protected void eventDead() {
+	protected void eventDeadFunc() {
 		eventCount++;
 		if (eventCount == 1) {
 			player.setDead();
@@ -441,11 +444,11 @@ public abstract class GameState extends BasicState {
 		}
 	}
 
-	protected void eventFinish() {
+	protected void eventFinishFunc() {
 		JukeBox.stop(levelMusicName);
 		eventCount++;
 		if (eventCount == 1) {
-			JukeBox.play("teleport");
+			JukeBox.play(TELEPORT_MUSIC_NAME);
 			player.setTeleporting(true);
 			player.stop();
 		} else if (eventCount == 120) {
@@ -456,7 +459,7 @@ public abstract class GameState extends BasicState {
 			tb.get(0).y -= 4;
 			tb.get(0).width += 12;
 			tb.get(0).height += 8;
-			JukeBox.stop("teleport");
+			JukeBox.stop(TELEPORT_MUSIC_NAME);
 		}
 		if (eventCount == 180) {
 			PlayerSave.setHealth(player.getHealth());

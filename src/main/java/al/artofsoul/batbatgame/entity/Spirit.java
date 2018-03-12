@@ -3,6 +3,7 @@ package al.artofsoul.batbatgame.entity;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
@@ -43,12 +44,12 @@ public class Spirit extends Enemy {
 	private RedEnergy[] shield;
 	private double ticks;
 
-	public Spirit(TileMap tm, Player p, ArrayList<Enemy> enemies, ArrayList<Explosion> explosions) {
+	public Spirit(TileMap tm, Player p, List<Enemy> enemies, List<Explosion> explosions) {
 
 		super(tm);
 		player = p;
-		this.enemies = enemies;
-		this.explosions = explosions;
+		this.enemies = (ArrayList<Enemy>) enemies;
+		this.explosions = (ArrayList<Explosion>) explosions;
 
 		width = 40;
 		height = 40;

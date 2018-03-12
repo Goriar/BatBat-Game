@@ -39,7 +39,7 @@ public class MenuState extends BasicState {
 		case 1:
 			gsm.setState(GameStateManager.OPTIONSSTATE);
 			break;
-		case 2:
+		default:
 			System.exit(0);
 			break;
 		}

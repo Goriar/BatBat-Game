@@ -30,6 +30,8 @@ public abstract class BasicState {
 	protected Font font;
 	protected Font font2;
 
+	private static final String MENU_OPTION = "menuoption";
+
 	public BasicState(GameStateManager gsm) {
 		this.gsm = gsm;
 		try {
@@ -46,7 +48,7 @@ public abstract class BasicState {
 			font2 = new Font("Arial", Font.PLAIN, 9);
 
 			// load sound fx
-			JukeBox.load("/SFX/menuoption.mp3", "menuoption");
+			JukeBox.load("/SFX/menuoption.mp3", MENU_OPTION);
 			JukeBox.load("/SFX/menuselect.mp3", "menuselect");
 
 		} catch (Exception e) {
@@ -85,11 +87,11 @@ public abstract class BasicState {
 		if (Keys.isPressed(Keys.ENTER))
 			select();
 		if (Keys.isPressed(Keys.UP) && currentChoice > 0) {
-			JukeBox.play("menuoption", 0);
+			JukeBox.play(MENU_OPTION, 0);
 			currentChoice--;
 		}
 		if (Keys.isPressed(Keys.DOWN) && currentChoice < options.length - 1) {
-			JukeBox.play("menuoption", 0);
+			JukeBox.play(MENU_OPTION, 0);
 			currentChoice++;
 		}
 	}

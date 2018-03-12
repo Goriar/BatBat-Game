@@ -17,10 +17,10 @@ public class EnergyParticle extends MapObject {
 
 	private BufferedImage[] sprites;
 
-	public static final int UP = 0;
-	public static final int LEFT = 1;
-	public static final int DOWN = 2;
-	public static final int RIGHT = 3;
+	public static final int ENERGY_UP = 0;
+	public static final int ENERGY_LEFT = 1;
+	public static final int ENERGY_DOWN = 2;
+	public static final int ENERGY_RIGHT = 3;
 
 	public EnergyParticle(TileMap tm, double x, double y, int dir) {
 		super(tm);
@@ -28,13 +28,13 @@ public class EnergyParticle extends MapObject {
 		this.y = y;
 		double d1 = Math.random() * 2.5 - 1.25;
 		double d2 = -Math.random() - 0.8;
-		if (dir == UP) {
+		if (dir == ENERGY_UP) {
 			dx = d1;
 			dy = d2;
-		} else if (dir == LEFT) {
+		} else if (dir == ENERGY_LEFT) {
 			dx = d2;
 			dy = d1;
-		} else if (dir == DOWN) {
+		} else if (dir == ENERGY_DOWN) {
 			dx = d1;
 			dy = -d2;
 		} else {

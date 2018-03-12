@@ -34,6 +34,8 @@ public class Level4State extends GameState {
 	private boolean flash;
 	private boolean eventBossDead;
 
+	private static final String LEVEL_BOSS_MUSIC_NAME = "level1boss";
+
 	public Level4State(GameStateManager gsm) {
 		super(gsm);
 		init(GameStateManager.ACIDSTATE);
@@ -50,7 +52,7 @@ public class Level4State extends GameState {
 		generateTileMap("/Maps/level4.map", 140, 0, false);
 
 		setupGameObjects(50, 190, 160, 154, true);
-		setupMusic("level1boss", "/Music/level1boss.mp3", false);
+		setupMusic(LEVEL_BOSS_MUSIC_NAME, "/Music/level1boss.mp3", false);
 
 		energyParticles = new ArrayList<>();
 		// angelspop
@@ -111,8 +113,8 @@ public class Level4State extends GameState {
 
 	// level started
 	@Override
-	protected void eventStart() {
-		super.eventStart();
+	protected void eventStartFunc() {
+		super.eventStartFunc();
 		if (eventCount == 1) {
 			if (!portal.isOpened())
 				tileMap.setShaking(true, 10);
@@ -122,7 +124,7 @@ public class Level4State extends GameState {
 
 	// finished level
 	@Override
-	protected void eventFinish() {
+	protected void eventFinishFunc() {
 		eventCount++;
 		if (eventCount == 1) {
 			tb.clear();
@@ -162,7 +164,7 @@ public class Level4State extends GameState {
 			trp.setVector(0.3, -0.3);
 			blp.setVector(-0.3, 0.3);
 			brp.setVector(0.3, 0.3);
-			player.setEmote(Player.SURPRISED);
+			player.setEmote(Player.SURPRISED_EMOTE);
 		}
 		if (eventCount == 240) {
 			tlp.setVector(0, -5);
@@ -171,7 +173,7 @@ public class Level4State extends GameState {
 			brp.setVector(0, -5);
 		}
 		if (eventCount == 300) {
-			player.setEmote(Player.NONE);
+			player.setEmote(Player.NONE_EMOTE);
 			portal.setOpening();
 		}
 		if (eventCount == 360) {
@@ -187,7 +189,7 @@ public class Level4State extends GameState {
 		}
 		if (eventCount == 362) {
 			flash = false;
-			JukeBox.loop("level1boss", 0, 60000, JukeBox.getFrames("level1boss") - 4000);
+			JukeBox.loop(LEVEL_BOSS_MUSIC_NAME, 0, 60000, JukeBox.getFrames(LEVEL_BOSS_MUSIC_NAME) - 4000);
 		}
 		if (eventCount == 420) {
 			eventPortal = blockInput = false;
@@ -201,7 +203,7 @@ public class Level4State extends GameState {
 		eventCount++;
 		if (eventCount == 1) {
 			player.stop();
-			JukeBox.stop("level1boss");
+			JukeBox.stop(LEVEL_BOSS_MUSIC_NAME);
 			enemies.clear();
 		}
 		if (eventCount <= 120 && eventCount % 15 == 0) {

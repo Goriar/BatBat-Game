@@ -14,14 +14,14 @@ import al.artofsoul.batbatgame.main.GamePanel;
 
 public class PauseState extends GameState {
 
-	private Font font;
+	private Font pauseFont;
 
 	public PauseState(GameStateManager gsm) {
 
 		super(gsm);
 
 		// fonts
-		font = new Font("Arial", Font.PLAIN, 12);
+		pauseFont = new Font("Arial", Font.PLAIN, 12);
 
 	}
 
@@ -35,7 +35,7 @@ public class PauseState extends GameState {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
 		g.setColor(Color.WHITE);
-		g.setFont(font);
+		g.setFont(pauseFont);
 		g.drawString("Game Paused", 110, 110);
 	}
 

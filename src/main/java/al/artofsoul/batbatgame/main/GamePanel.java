@@ -14,9 +14,12 @@ import al.artofsoul.batbatgame.gamestate.GameStateManager;
 import al.artofsoul.batbatgame.handlers.Keys;
 import al.artofsoul.batbatgame.handlers.LoggingHelper;
 
-@SuppressWarnings("serial")
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1275876853084636658L;
 	// dimensions
 	public static final int WIDTH = 320;
 	public static final int HEIGHT = 240;
@@ -136,6 +139,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent key) {
+		throw new IllegalStateException("Needs to be overwritten");
 	}
 
 	@Override

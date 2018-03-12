@@ -56,6 +56,7 @@ public class Enemy extends MapObject {
 	}
 
 	public void update() {
+		throw new IllegalStateException("Needs to be overwritten");
 	}
 
 }
