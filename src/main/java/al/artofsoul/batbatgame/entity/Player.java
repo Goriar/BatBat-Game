@@ -300,54 +300,17 @@ public class Player extends MapObject {
 
 		if (knockback) {
 			dy += fallSpeed * 2;
-			if (!falling)
-				knockback = false;
+			knockback = !falling;
 			return;
 		}
 
-		double maxSpeed = this.maxSpeed;
-		if (dashing)
-			maxSpeed *= 1.75;
+		movement();
 
-		// movement
-		if (left) {
-			dx -= moveSpeed;
-			if (dx < -maxSpeed) {
-				dx = -maxSpeed;
-			}
-		} else if (right) {
-			dx += moveSpeed;
-			if (dx > maxSpeed) {
-				dx = maxSpeed;
-			}
-		} else {
-			if (dx > 0) {
-				dx -= stopSpeed;
-				if (dx < 0) {
-					dx = 0;
-				}
-			} else if (dx < 0) {
-				dx += stopSpeed;
-				if (dx > 0) {
-					dx = 0;
-				}
-			}
-		}
+		jumpAndFall();
 
-		// cannot move while attacking, except in air
-		if ((attacking || upattacking || charging) && !(jumping || falling)) {
-			dx = 0;
-		}
+	}
 
-		// charging
-		if (charging) {
-			chargingTick++;
-			if (facingRight)
-				dx = moveSpeed * (3 - chargingTick * 0.07);
-			else
-				dx = -moveSpeed * (3 - chargingTick * 0.07);
-		}
-
+	private void jumpAndFall() {
 		// jumping
 		if (jumping && !falling) {
 			dy = jumpStart;
@@ -376,15 +339,49 @@ public class Player extends MapObject {
 			if (dy > maxFallSpeed)
 				dy = maxFallSpeed;
 		}
+	}
 
+	private void movement() {
+		double maxSpeed = this.maxSpeed;
+		if (dashing)
+			maxSpeed *= 1.75;
+
+		// movement
+		if (left) {
+			dx = Math.max(-maxSpeed, dx - moveSpeed);
+		} else if (right) {
+			dx = Math.min(maxSpeed, dx + moveSpeed);
+		} else {
+			if (dx >= 0) {
+				dx = Math.max(0, dx - stopSpeed);
+			} else {
+				dx = Math.min(0, dx + stopSpeed);
+			}
+		}
+
+		// cannot move while attacking, except in air
+		if ((attacking || upattacking || charging) && !(jumping || falling)) {
+			dx = 0;
+		}
+
+		// charging
+		if (charging) {
+			chargingTick++;
+			if (facingRight)
+				dx = moveSpeed * (3 - chargingTick * 0.07);
+			else
+				dx = -moveSpeed * (3 - chargingTick * 0.07);
+		}
 	}
 
 	private void setAnimation(int i) {
-		currentAction = i;
-		animation.setFrames(sprites.get(currentAction));
-		animation.setDelay(SPRITEDELAYS[currentAction]);
-		width = FRAMEWIDTHS[currentAction];
-		height = FRAMEHEIGHTS[currentAction];
+		if (currentAction != i) {
+			currentAction = i;
+			animation.setFrames(sprites.get(currentAction));
+			animation.setDelay(SPRITEDELAYS[currentAction]);
+			width = FRAMEWIDTHS[currentAction];
+			height = FRAMEHEIGHTS[currentAction];
+		}
 	}
 
 	public void update() {
@@ -407,12 +404,29 @@ public class Player extends MapObject {
 		if (dx == 0)
 			x = (int) x;
 
+		checkAttack();
+
+		checkEnemyInteraction();
+
+		checkAnimations();
+
+		animation.update();
+
+		// set direction
+		if (!attacking && !upattacking && !charging && !knockback) {
+			if (right)
+				facingRight = true;
+			if (left)
+				facingRight = false;
+		}
+
+	}
+
+	private void checkAttack() {
 		// check done flinching
 		if (flinching) {
 			flinchCount++;
-			if (flinchCount > 120) {
-				flinching = false;
-			}
+			flinching = flinchCount <= 120;
 		}
 
 		// energy particles
@@ -438,16 +452,18 @@ public class Player extends MapObject {
 				charging = false;
 			}
 			cr.y = (int) y - 20;
-			if (facingRight)
+			if (facingRight) {
 				cr.x = (int) x - 15;
-			else
-				cr.x = (int) x - 35;
-			if (facingRight)
 				energyParticles.add(new EnergyParticle(tileMap, x + 30, y, EnergyParticle.ENERGY_RIGHT));
-			else
+			} else {
+				cr.x = (int) x - 35;
 				energyParticles.add(new EnergyParticle(tileMap, x - 30, y, EnergyParticle.ENERGY_LEFT));
-		}
+			}
 
+		}
+	}
+
+	private void checkEnemyInteraction() {
 		// check enemy interaction
 		for (int i = 0; i < enemies.size(); i++) {
 
@@ -480,89 +496,72 @@ public class Player extends MapObject {
 			}
 
 		}
+	}
 
+	private void checkAnimations() {
 		// set animation, ordered by priority
 		if (teleporting) {
-			if (currentAction != TELEPORTING_ANIM) {
-				setAnimation(TELEPORTING_ANIM);
-			}
+			setAnimation(TELEPORTING_ANIM);
 		} else if (knockback) {
-			if (currentAction != KNOCKBACK_ANIM) {
-				setAnimation(KNOCKBACK_ANIM);
-			}
+			setAnimation(KNOCKBACK_ANIM);
 		} else if (health == 0) {
-			if (currentAction != DEAD_ANIM) {
-				setAnimation(DEAD_ANIM);
-			}
+			setAnimation(DEAD_ANIM);
 		} else if (upattacking) {
-			if (currentAction != UPATTACKING_ANIM) {
-				JukeBox.play(PLAYERATTACK_MUSIC_NAME);
-				setAnimation(UPATTACKING_ANIM);
-				aur.x = (int) x - 15;
-				aur.y = (int) y - 50;
-			} else {
-				if (animation.getFrame() == 4 && animation.getCount() == 0) {
-					for (int c = 0; c < 3; c++) {
-						energyParticles.add(new EnergyParticle(tileMap, aur.x + aur.width / 2, aur.y + 5,
-								EnergyParticle.ENERGY_UP));
-					}
-				}
-			}
+			checkUpAttackingAnim();
 		} else if (attacking) {
-			if (currentAction != ATTACKING_ANIM) {
-				JukeBox.play(PLAYERATTACK_MUSIC_NAME);
-				setAnimation(ATTACKING_ANIM);
-				ar.y = (int) y - 6;
-				if (facingRight)
-					ar.x = (int) x + 10;
-				else
-					ar.x = (int) x - 40;
-			} else {
-				if (animation.getFrame() == 4 && animation.getCount() == 0) {
-					for (int c = 0; c < 3; c++) {
-						if (facingRight)
-							energyParticles.add(new EnergyParticle(tileMap, ar.x + ar.width - 4, ar.y + ar.height / 2,
-									EnergyParticle.ENERGY_RIGHT));
-						else
-							energyParticles.add(new EnergyParticle(tileMap, ar.x + 4, ar.y + ar.height / 2,
-									EnergyParticle.ENERGY_LEFT));
-					}
-				}
-			}
+			checkAttackingAnim();
 		} else if (charging) {
-			if (currentAction != CHARGING_ANIM) {
-				setAnimation(CHARGING_ANIM);
-			}
+			setAnimation(CHARGING_ANIM);
 		} else if (dy < 0) {
-			if (currentAction != JUMPING_ANIM) {
-				setAnimation(JUMPING_ANIM);
-			}
+			setAnimation(JUMPING_ANIM);
 		} else if (dy > 0) {
-			if (currentAction != FALLING_ANIM) {
-				setAnimation(FALLING_ANIM);
-			}
+			setAnimation(FALLING_ANIM);
 		} else if (dashing && (left || right)) {
-			if (currentAction != DASHING_ANIM) {
-				setAnimation(DASHING_ANIM);
-			}
+			setAnimation(DASHING_ANIM);
 		} else if (left || right) {
-			if (currentAction != WALKING_ANIM) {
-				setAnimation(WALKING_ANIM);
-			}
-		} else if (currentAction != IDLE_ANIM) {
+			setAnimation(WALKING_ANIM);
+		} else {
 			setAnimation(IDLE_ANIM);
 		}
+	}
 
-		animation.update();
-
-		// set direction
-		if (!attacking && !upattacking && !charging && !knockback) {
-			if (right)
-				facingRight = true;
-			if (left)
-				facingRight = false;
+	private void checkAttackingAnim() {
+		if (currentAction != ATTACKING_ANIM) {
+			JukeBox.play(PLAYERATTACK_MUSIC_NAME);
+			setAnimation(ATTACKING_ANIM);
+			ar.y = (int) y - 6;
+			if (facingRight)
+				ar.x = (int) x + 10;
+			else
+				ar.x = (int) x - 40;
+		} else {
+			if (animation.getFrame() == 4 && animation.getCount() == 0) {
+				for (int c = 0; c < 3; c++) {
+					if (facingRight)
+						energyParticles.add(new EnergyParticle(tileMap, ar.x + ar.width - 4, ar.y + ar.height / 2,
+								EnergyParticle.ENERGY_RIGHT));
+					else
+						energyParticles.add(new EnergyParticle(tileMap, ar.x + 4, ar.y + ar.height / 2,
+								EnergyParticle.ENERGY_LEFT));
+				}
+			}
 		}
+	}
 
+	private void checkUpAttackingAnim() {
+		if (currentAction != UPATTACKING_ANIM) {
+			JukeBox.play(PLAYERATTACK_MUSIC_NAME);
+			setAnimation(UPATTACKING_ANIM);
+			aur.x = (int) x - 15;
+			aur.y = (int) y - 50;
+		} else {
+			if (animation.getFrame() == 4 && animation.getCount() == 0) {
+				for (int c = 0; c < 3; c++) {
+					energyParticles.add(new EnergyParticle(tileMap, aur.x + aur.width / 2, aur.y + 5,
+							EnergyParticle.ENERGY_UP));
+				}
+			}
+		}
 	}
 
 	@Override

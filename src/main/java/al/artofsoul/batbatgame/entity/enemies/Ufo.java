@@ -71,66 +71,76 @@ public class Ufo extends Flyer {
 		else
 			facingRight = true;
 
-		// idle
-		if (step == 0) {
-			if (currentAction != IDLE) {
-				currentAction = IDLE;
-				animation.setFrames(idleSprites);
-				animation.setDelay(-1);
-			}
-			attackTick++;
-			if (attackTick >= attackDelay && Math.abs(player.getx() - x) < 60) {
+		switch (step) {
+		case 0:
+			updateIdle();
+			break;
+		case 1:
+			updateJump();
+			break;
+		case 2:
+			updateAttack();
+			break;
+		case 3:
+			if (dy == 0)
 				step++;
-				attackTick = 0;
-			}
-		}
-		// jump away
-		if (step == 1) {
-			if (currentAction != JUMPING) {
-				currentAction = JUMPING;
-				animation.setFrames(jumpSprites);
-				animation.setDelay(-1);
-			}
-			jumping = true;
-			if (facingRight)
-				left = true;
-			else
-				right = true;
-			if (falling) {
-				step++;
-			}
-		}
-		// attack
-		if (step == 2) {
-			if (dy > 0 && currentAction != ATTACKING) {
-				currentAction = ATTACKING;
-				animation.setFrames(attackSprites);
-				animation.setDelay(3);
-				RedEnergy de = new RedEnergy(tileMap);
-				de.setPosition(x, y);
-				if (facingRight)
-					de.setVector(3, 3);
-				else
-					de.setVector(-3, 3);
-				enemies.add(de);
-			}
-			if (currentAction == ATTACKING && animation.hasPlayedOnce()) {
-				step++;
-				currentAction = JUMPING;
-				animation.setFrames(jumpSprites);
-				animation.setDelay(-1);
-			}
-		}
-		// done attacking
-		if (step == 3 && dy == 0) {
-			step++;
-		}
-		// land
-		if (step == 4) {
+			break;
+		default:
 			step = 0;
 			left = right = jumping = false;
-		}
+			break;
 
+		}
+	}
+
+	private void updateAttack() {
+		if (dy > 0 && currentAction != ATTACKING) {
+			currentAction = ATTACKING;
+			animation.setFrames(attackSprites);
+			animation.setDelay(3);
+			RedEnergy de = new RedEnergy(tileMap);
+			de.setPosition(x, y);
+			if (facingRight)
+				de.setVector(3, 3);
+			else
+				de.setVector(-3, 3);
+			enemies.add(de);
+		}
+		if (currentAction == ATTACKING && animation.hasPlayedOnce()) {
+			step++;
+			currentAction = JUMPING;
+			animation.setFrames(jumpSprites);
+			animation.setDelay(-1);
+		}
+	}
+
+	private void updateJump() {
+		if (currentAction != JUMPING) {
+			currentAction = JUMPING;
+			animation.setFrames(jumpSprites);
+			animation.setDelay(-1);
+		}
+		jumping = true;
+		if (facingRight)
+			left = true;
+		else
+			right = true;
+		if (falling) {
+			step++;
+		}
+	}
+
+	private void updateIdle() {
+		if (currentAction != IDLE) {
+			currentAction = IDLE;
+			animation.setFrames(idleSprites);
+			animation.setDelay(-1);
+		}
+		attackTick++;
+		if (attackTick >= attackDelay && Math.abs(player.getx() - x) < 60) {
+			step++;
+			attackTick = 0;
+		}
 	}
 
 	@Override

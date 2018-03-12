@@ -138,11 +138,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	}
 
 	@Override
-	public void keyTyped(KeyEvent key) {
-		throw new IllegalStateException("Needs to be overwritten");
-	}
-
-	@Override
 	public void keyPressed(KeyEvent key) {
 		if (key.isControlDown()) {
 			if (key.getKeyCode() == KeyEvent.VK_R) {
@@ -160,6 +155,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	@Override
 	public void keyReleased(KeyEvent key) {
 		Keys.keySet(key.getKeyCode(), false);
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// Not necessary
+
 	}
 
 }

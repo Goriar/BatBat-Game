@@ -130,6 +130,40 @@ public abstract class MapObject {
 		xtemp = x;
 		ytemp = y;
 
+		checkYCollision();
+
+		checkXCollision();
+
+		if (!falling) {
+			calculateCorners(x, ydest + 1);
+			if (!bottomLeft && !bottomRight) {
+				falling = true;
+			}
+		}
+
+	}
+
+	private void checkXCollision() {
+		calculateCorners(xdest, y);
+		if (dx < 0) {
+			if (topLeft || bottomLeft) {
+				dx = 0;
+				xtemp = currCol * tileSize + cwidth / 2.0;
+			} else {
+				xtemp += dx;
+			}
+		}
+		if (dx > 0) {
+			if (topRight || bottomRight) {
+				dx = 0;
+				xtemp = (currCol + 1) * tileSize - cwidth / 2.0;
+			} else {
+				xtemp += dx;
+			}
+		}
+	}
+
+	private void checkYCollision() {
 		calculateCorners(x, ydest);
 		if (dy < 0) {
 			if (topLeft || topRight) {
@@ -148,32 +182,6 @@ public abstract class MapObject {
 				ytemp += dy;
 			}
 		}
-
-		calculateCorners(xdest, y);
-		if (dx < 0) {
-			if (topLeft || bottomLeft) {
-				dx = 0;
-				xtemp = currCol * tileSize + cwidth / 2.0;
-			} else {
-				xtemp += dx;
-			}
-		}
-		if (dx > 0) {
-			if (topRight || bottomRight) {
-				dx = 0;
-				xtemp = (currCol + 1) * tileSize - cwidth / 2.0;
-			} else {
-				xtemp += dx;
-			}
-		}
-
-		if (!falling) {
-			calculateCorners(x, ydest + 1);
-			if (!bottomLeft && !bottomRight) {
-				falling = true;
-			}
-		}
-
 	}
 
 	public int getx() {
