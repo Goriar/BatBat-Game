@@ -530,10 +530,7 @@ public class Player extends MapObject {
 			JukeBox.play(PLAYERATTACK_MUSIC_NAME);
 			setAnimation(ATTACKING_ANIM);
 			ar.y = (int) y - 6;
-			if (facingRight)
-				ar.x = (int) x + 10;
-			else
-				ar.x = (int) x - 40;
+			ar.x = facingRight ? (int) x + 10 : (int) x - 40;
 		} else {
 			if (animation.getFrame() == 4 && animation.getCount() == 0) {
 				for (int c = 0; c < 3; c++) {
@@ -557,8 +554,8 @@ public class Player extends MapObject {
 		} else {
 			if (animation.getFrame() == 4 && animation.getCount() == 0) {
 				for (int c = 0; c < 3; c++) {
-					energyParticles.add(new EnergyParticle(tileMap, aur.x + aur.width / 2, aur.y + 5,
-							EnergyParticle.ENERGY_UP));
+					energyParticles.add(
+							new EnergyParticle(tileMap, aur.x + aur.width / 2, aur.y + 5, EnergyParticle.ENERGY_UP));
 				}
 			}
 		}
