@@ -37,12 +37,8 @@ import al.artofsoul.batbatgame.tilemap.TileMap;
  *
  */
 
-public abstract class GameState {
+public abstract class GameState extends BasicState {
 
-	protected GameStateManager gsm;
-
-	protected Player player;
-	protected TileMap tileMap;
 	protected ArrayList<Enemy> enemies;
 	protected ArrayList<EnemyProjectile> eprojectiles;
 	protected ArrayList<Explosion> explosions;
@@ -54,7 +50,6 @@ public abstract class GameState {
 	protected Teleport teleport;
 
 	// events
-	protected boolean blockInput = false;
 	protected int eventCount = 0;
 	protected boolean eventStart;
 	protected ArrayList<Rectangle> tb;
@@ -80,11 +75,28 @@ public abstract class GameState {
 	protected String levelMusicName;
 
 	public GameState(GameStateManager gsm) {
-		this.gsm = gsm;
+		super(gsm);
 	}
 
 	public void init(int nextLevel) {
 		nextLevelState = nextLevel;
+	}
+
+	public void handleInput() {
+		if (Keys.isPressed(Keys.ESCAPE))
+			gsm.setPaused(true);
+		if (blockInput || player.getHealth() == 0)
+			return;
+		player.setUp(Keys.getKeyState()[Keys.UP]);
+		player.setLeft(Keys.getKeyState()[Keys.LEFT]);
+		player.setDown(Keys.getKeyState()[Keys.DOWN]);
+		player.setRight(Keys.getKeyState()[Keys.RIGHT]);
+		player.setJumping(Keys.getKeyState()[Keys.BUTTON1]);
+		player.setDashing(Keys.getKeyState()[Keys.BUTTON2]);
+		if (Keys.isPressed(Keys.BUTTON3))
+			player.setAttacking();
+		if (Keys.isPressed(Keys.BUTTON4))
+			player.setCharging();
 	}
 
 	protected void handleObjects(TileMap tileMap, List<Enemy> enemies, List<EnemyProjectile> eprojectiles,
@@ -241,6 +253,7 @@ public abstract class GameState {
 		}
 	}
 
+	@Override
 	public void update() {
 
 		// check keys
@@ -299,6 +312,7 @@ public abstract class GameState {
 
 	}
 
+	@Override
 	public void draw(Graphics2D g) {
 		// draw background
 		if (sky != null)
@@ -353,23 +367,6 @@ public abstract class GameState {
 		for (int i = 0; i < tb.size(); i++) {
 			g.fill(tb.get(i));
 		}
-	}
-
-	public void handleInput() {
-		if (Keys.isPressed(Keys.ESCAPE))
-			gsm.setPaused(true);
-		if (blockInput || player.getHealth() == 0)
-			return;
-		player.setUp(Keys.getKeyState()[Keys.UP]);
-		player.setLeft(Keys.getKeyState()[Keys.LEFT]);
-		player.setDown(Keys.getKeyState()[Keys.DOWN]);
-		player.setRight(Keys.getKeyState()[Keys.RIGHT]);
-		player.setJumping(Keys.getKeyState()[Keys.BUTTON1]);
-		player.setDashing(Keys.getKeyState()[Keys.BUTTON2]);
-		if (Keys.isPressed(Keys.BUTTON3))
-			player.setAttacking();
-		if (Keys.isPressed(Keys.BUTTON4))
-			player.setCharging();
 	}
 
 	// reset level
