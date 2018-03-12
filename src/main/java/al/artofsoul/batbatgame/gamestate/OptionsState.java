@@ -11,7 +11,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import al.artofsoul.batbatgame.audio.JukeBox;
-import al.artofsoul.batbatgame.entity.Enemy.EnemyType;
 import al.artofsoul.batbatgame.handlers.Keys;
 import al.artofsoul.batbatgame.handlers.LoggingHelper;
 import al.artofsoul.batbatgame.main.GamePanel;
@@ -55,10 +54,6 @@ public class OptionsState extends GameState {
 		} catch (Exception e) {
 			LoggingHelper.LOGGER.log(Level.SEVERE, e.getMessage());
 		}
-	}
-
-	@Override
-	public void init() {
 	}
 
 	@Override
@@ -116,29 +111,5 @@ public class OptionsState extends GameState {
 			JukeBox.play("menuoption", 0);
 			currentChoice++;
 		}
-	}
-
-	@Override
-	protected void populateEnemies(EnemyType[] enemies, int[][] coords) {
-		// Not Necessary
-
-	}
-
-	@Override
-	protected void eventStart() {
-		// Not Necessary
-
-	}
-
-	@Override
-	protected void eventDead() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void eventFinish() {
-		// TODO Auto-generated method stub
-
 	}
 }

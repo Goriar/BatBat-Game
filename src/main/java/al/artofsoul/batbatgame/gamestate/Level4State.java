@@ -14,7 +14,6 @@ import al.artofsoul.batbatgame.entity.PlayerSave;
 import al.artofsoul.batbatgame.entity.Spirit;
 import al.artofsoul.batbatgame.entity.batbat.Piece;
 import al.artofsoul.batbatgame.entity.enemies.RedEnergy;
-import al.artofsoul.batbatgame.handlers.Keys;
 import al.artofsoul.batbatgame.main.GamePanel;
 import al.artofsoul.batbatgame.tilemap.Background;
 
@@ -32,19 +31,18 @@ public class Level4State extends GameState {
 	private Piece brp;
 
 	private Spirit spirit;
-
-	private boolean eventPortal;
 	private boolean flash;
 	private boolean eventBossDead;
 
 	public Level4State(GameStateManager gsm) {
 		super(gsm);
-		init();
+		init(GameStateManager.ACIDSTATE);
 	}
 
 	@Override
-	public void init() {
+	public void init(int nextLevel) {
 
+		super.init(nextLevel);
 		// backgrounds
 		temple = new Background("/Backgrounds/temple.gif", 0.5, 0);
 
@@ -107,93 +105,18 @@ public class Level4State extends GameState {
 
 	}
 
-	@Override
-	public void handleInput() {
-		if (Keys.isPressed(Keys.ESCAPE))
-			gsm.setPaused(true);
-		if (blockInput || player.getHealth() == 0)
-			return;
-		player.setUp(Keys.getKeyState()[Keys.UP]);
-		player.setLeft(Keys.getKeyState()[Keys.LEFT]);
-		player.setDown(Keys.getKeyState()[Keys.DOWN]);
-		player.setRight(Keys.getKeyState()[Keys.RIGHT]);
-		player.setJumping(Keys.getKeyState()[Keys.BUTTON1]);
-		player.setDashing(Keys.getKeyState()[Keys.BUTTON2]);
-		if (Keys.isPressed(Keys.BUTTON3))
-			player.setAttacking();
-		if (Keys.isPressed(Keys.BUTTON4))
-			player.setCharging();
-	}
-
 	///////////////////////////////////////////////////////
 	//////////////////// EVENTS
 	///////////////////////////////////////////////////////
 
-	// reset level
-	private void reset() {
-		player.reset();
-		player.setPosition(50, 190);
-		populateEnemies(enemyTypesInLevel, coords);
-		eventStart = blockInput = true;
-		eventCount = 0;
-		eventStart();
-	}
-
 	// level started
 	@Override
 	protected void eventStart() {
-		eventCount++;
+		super.eventStart();
 		if (eventCount == 1) {
-			tb.clear();
-			tb.add(new Rectangle(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT / 2));
-			tb.add(new Rectangle(0, 0, GamePanel.WIDTH / 2, GamePanel.HEIGHT));
-			tb.add(new Rectangle(0, GamePanel.HEIGHT / 2, GamePanel.WIDTH, GamePanel.HEIGHT / 2));
-			tb.add(new Rectangle(GamePanel.WIDTH / 2, 0, GamePanel.WIDTH / 2, GamePanel.HEIGHT));
 			if (!portal.isOpened())
 				tileMap.setShaking(true, 10);
 			JukeBox.stop("level1");
-		}
-		if (eventCount > 1 && eventCount < 60) {
-			tb.get(0).height -= 4;
-			tb.get(1).width -= 6;
-			tb.get(2).y += 4;
-			tb.get(3).x += 6;
-		}
-		if (eventCount == 60) {
-			eventStart = blockInput = false;
-			eventCount = 0;
-			eventPortal = blockInput = true;
-			tb.clear();
-
-		}
-	}
-
-	// player has died
-	@Override
-	protected void eventDead() {
-		eventCount++;
-		if (eventCount == 1) {
-			player.setDead();
-			player.stop();
-		}
-		if (eventCount == 60) {
-			tb.clear();
-			tb.add(new Rectangle(GamePanel.WIDTH / 2, GamePanel.HEIGHT / 2, 0, 0));
-		} else if (eventCount > 60) {
-			tb.get(0).x -= 6;
-			tb.get(0).y -= 4;
-			tb.get(0).width += 12;
-			tb.get(0).height += 8;
-		}
-		if (eventCount >= 120) {
-			if (player.getLives() == 0) {
-				gsm.setState(GameStateManager.MENUSTATE);
-			} else {
-				eventDead = blockInput = false;
-				eventCount = 0;
-				player.loseLife();
-				reset();
-			}
 		}
 	}
 

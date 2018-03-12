@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
-import al.artofsoul.batbatgame.entity.Enemy.EnemyType;
 import al.artofsoul.batbatgame.handlers.Keys;
 import al.artofsoul.batbatgame.main.GamePanel;
 
@@ -24,10 +23,6 @@ public class PauseState extends GameState {
 		// fonts
 		font = new Font("Arial", Font.PLAIN, 12);
 
-	}
-
-	@Override
-	public void init() {
 	}
 
 	@Override
@@ -52,30 +47,6 @@ public class PauseState extends GameState {
 			gsm.setPaused(false);
 			gsm.setState(GameStateManager.MENUSTATE);
 		}
-	}
-
-	@Override
-	protected void populateEnemies(EnemyType[] enemies, int[][] coords) {
-		// Not Necessary
-
-	}
-
-	@Override
-	protected void eventStart() {
-		// Not Necessary
-
-	}
-
-	@Override
-	protected void eventDead() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void eventFinish() {
-		// TODO Auto-generated method stub
-
 	}
 
 }

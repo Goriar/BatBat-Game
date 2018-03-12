@@ -8,7 +8,6 @@ import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
 
-import al.artofsoul.batbatgame.entity.Enemy.EnemyType;
 import al.artofsoul.batbatgame.handlers.Keys;
 import al.artofsoul.batbatgame.handlers.LoggingHelper;
 import al.artofsoul.batbatgame.main.GamePanel;
@@ -37,11 +36,6 @@ public class AcidState extends GameState {
 	}
 
 	@Override
-	public void init() {
-		// No init necessary
-	}
-
-	@Override
 	public void update() {
 		handleInput();
 		color = Color.getHSBColor(hue, 1f, 1f);
@@ -65,30 +59,6 @@ public class AcidState extends GameState {
 	public void handleInput() {
 		if (Keys.isPressed(Keys.ESCAPE))
 			gsm.setState(GameStateManager.MENUSTATE);
-	}
-
-	@Override
-	protected void populateEnemies(EnemyType[] enemies, int[][] coords) {
-		// Not Necessary
-
-	}
-
-	@Override
-	protected void eventStart() {
-		// Not Necessary
-
-	}
-
-	@Override
-	protected void eventDead() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void eventFinish() {
-		// TODO Auto-generated method stub
-
 	}
 
 }
