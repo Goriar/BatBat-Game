@@ -25,6 +25,11 @@
     <name>goriar</name>
   </organization>
   <build>
+    <resources>
+      <resource>
+        <directory>./Resources</directory>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
